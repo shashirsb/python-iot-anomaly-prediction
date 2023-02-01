@@ -1,3 +1,4 @@
+from base64 import b64decode
 import io
 import json
 import logging
@@ -10,29 +11,39 @@ from fdk import response
 
 
 def handler(ctx, data: io.BytesIO = None):
-    name = "World"
-    try:
-        body = json.loads(data.getvalue())
-        name = body.get("name")
-    except (Exception, ValueError) as ex:
-        logging.getLogger().info('error parsing json payload: ' + str(ex))
+ 
 
-    logging.getLogger().info("Inside Python Hello World function")
-    return response.Response(
-        ctx, response_data=json.dumps(
-            {"message": "Hello {0}".format(name)}),
-        headers={"Content-Type": "application/json"}
-    )
+    ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"
+    ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yaqdwgmejoadwuakvohzn7qigamnlxmh4rhvnv6brkevra"
+    config = oci.config.from_file("config", "DEFAULT")
 
 
 
+    # config = oci.config.from_file(ociConfigFilePath, ociProfileName)
+    stream_client = oci.streaming.StreamClient(
+    config, service_endpoint=ociMessageEndpoint)
+
+    # A cursor can be created as part of a consumer group.
+    # Committed offsets are managed for the group, and partitions
+    # are dynamically balanced amongst consumers in the group.
+    group_cursor = get_cursor_by_group(
+    stream_client, ociStreamOcid, "example-group", "example-instance-1")
+    simple_message_loop(stream_client, ociStreamOcid, group_cursor)
+
+    #    try:
+    #         body = json.loads(data.getvalue())
+    #         name = body.get("name")
+    #     except (Exception, ValueError) as ex:
+    #         logging.getLogger().info('error parsing json payload: ' + str(ex))
+
+    #     logging.getLogger().info("Inside Python Hello World function")
+    #     return response.Response(
+    #         ctx, response_data=json.dumps(
+    #             {"message": "Hello {0}".format(name)}),
+    #         headers={"Content-Type": "application/json"}
+    # )
 
 
-from base64 import b64decode
-
-ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"  
-ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yaqdwgmejoadwuakvohzn7qigamnlxmh4rhvnv6brkevra"  
-config = oci.config.from_file("config", "DEFAULT")  
 
 
 def get_cursor_by_group(sc, sid, group_name, instance_name):
@@ -43,6 +54,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
                                                                    commit_on_get=True)
     response = sc.create_group_cursor(sid, cursor_details)
     return response.data.value
+
 
 def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
@@ -67,13 +79,3 @@ def simple_message_loop(client, stream_id, initial_cursor):
         time.sleep(1)
         # use the next-cursor for iteration
         cursor = get_response.headers["opc-next-cursor"]
-
-
-# config = oci.config.from_file(ociConfigFilePath, ociProfileName)
-stream_client = oci.streaming.StreamClient(config, service_endpoint=ociMessageEndpoint)
-
-# A cursor can be created as part of a consumer group.
-# Committed offsets are managed for the group, and partitions
-# are dynamically balanced amongst consumers in the group.
-group_cursor = get_cursor_by_group(stream_client, ociStreamOcid, "example-group", "example-instance-1")
-simple_message_loop(stream_client, ociStreamOcid, group_cursor)
