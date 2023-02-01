@@ -3,6 +3,8 @@ import json
 import logging
 import oci
 import time
+import requests
+import base64
 
 from fdk import response
 
@@ -30,7 +32,7 @@ from base64 import b64decode
 
 ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"  
 ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yaqdwgmejoadwuakvohzn7qigamnlxmh4rhvnv6brkevra"  
-config = oci.config.from_file()  
+config = oci.config.from_file("config", "DEFAULT")  
 
 
 def get_cursor_by_group(sc, sid, group_name, instance_name):

@@ -1,2 +1,5 @@
 fdk>=0.1.50
-oci>=3.22.3
+requests
+oci
+pandas
+pyarrow
