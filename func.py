@@ -69,7 +69,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
         # Process the messages
         print(" Read {} messages".format(len(get_response.data)))
         for message in get_response.data:
-            subprocess.call("/function/anomalydetection.py", shell=True)
+            subprocess.call("./anomalydetection.py", shell=True)
             # if message.key is None:
             #     key = "Null"
             # else:

@@ -25,7 +25,7 @@ from oci.ai_anomaly_detection.models.data_item import DataItem
 from oci.ai_anomaly_detection.models.detection_result_item import DetectionResultItem
 from oci.ai_anomaly_detection.models.inline_detect_anomalies_request import InlineDetectAnomaliesRequest
 
-configfile='/home/datascience/.oci/config'
+configfile='config'
 
 modelid='ocid1.aianomalydetectionmodel.oc1.iad.amaaaaaay5l3z3yan45sm3cykwmiprvchapu4heu32iaxrl4wcau543wufta'
 
