@@ -12,6 +12,7 @@ FROM fnproject/python:3.9
 WORKDIR /function
 COPY --from=build-stage /python /python
 COPY --from=build-stage /function /function
-RUN chmod -R o+r /function
+RUN chmod -R 777 /function
+RUN ls -ltr /function
 ENV PYTHONPATH=/function:/python
 ENTRYPOINT ["/python/bin/fdk", "/function/func.py", "handler"]
