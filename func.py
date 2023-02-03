@@ -81,4 +81,4 @@ def simple_message_loop(client, stream_id, initial_cursor):
         time.sleep(1)
         # use the next-cursor for iteration
         cursor = get_response.headers["opc-next-cursor"]
-    subprocess.call("anomalydetection.py", shell=True)
+    subprocess.call("./anomalydetection.py", shell=True)
