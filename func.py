@@ -69,16 +69,17 @@ def simple_message_loop(client, stream_id, initial_cursor):
         # Process the messages
         print(" Read {} messages".format(len(get_response.data)))
         for message in get_response.data:
-            if message.key is None:
-                key = "Null"
-            else:
-                key = b64decode(message.key.encode()).decode()
-            print("{}: {}".format(key,
-                                  b64decode(message.value.encode()).decode()))
+            subprocess.call("./anomalydetection.py", shell=True)
+            # if message.key is None:
+            #     key = "Null"
+            # else:
+            #     key = b64decode(message.key.encode()).decode()
+            # print("{}: {}".format(key,
+            #                       b64decode(message.value.encode()).decode()))
 
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
         time.sleep(1)
         # use the next-cursor for iteration
         cursor = get_response.headers["opc-next-cursor"]
-    subprocess.call("./anomalydetection.py", shell=True)
+    
