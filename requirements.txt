@@ -3,3 +3,8 @@ requests
 oci
 pandas
 pyarrow
+time
+json
+numpy
+datetime
+subprocess
