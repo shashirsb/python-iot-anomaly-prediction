@@ -19,7 +19,7 @@ def handler(ctx, data: io.BytesIO = None):
     ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yaqdwgmejoadwuakvohzn7qigamnlxmh4rhvnv6brkevra"
     config = oci.config.from_file("config", "DEFAULT")
 
-
+    print('line -------------------- func.py--22')
 
     # config = oci.config.from_file(ociConfigFilePath, ociProfileName)
     stream_client = oci.streaming.StreamClient(
@@ -65,7 +65,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
         # No messages to process. return.
         if not get_response.data:
             return
-
+        print('line -------------------- func.py--68')
         # Process the messages
         print(" Read {} messages".format(len(get_response.data)))
         for message in get_response.data:
