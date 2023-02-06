@@ -60,7 +60,7 @@ outputdict={}
 
 #read historical data
 
-historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": "~/.oci/config"})
+historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": "config"})
 
 historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
 
