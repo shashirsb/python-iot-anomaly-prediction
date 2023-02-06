@@ -1,7 +1,9 @@
 fdk>=0.1.50
 requests
 oci
+ocifs
 pandas
 pyarrow
 numpy
 datetime
+fsspec
