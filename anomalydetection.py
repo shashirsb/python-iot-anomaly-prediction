@@ -37,6 +37,8 @@ bucket_name='pi_ai_anomaly_detection'
 
 compartment_id = 'ocid1.compartment.oc1..aaaaaaaaezxuhazglgc4ybhpde43uoiifwitlezypdvnhn6xqro6nomw7neq'
 
+print('line -------------------- 40')
+
 config = from_file(configfile)
 
 
@@ -59,8 +61,8 @@ outputdict={}
 #         -2.002714329034521, 0.7536581234164882]
 
 #read historical data
-print('line -------------------- 62')
-historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": config})
+
+historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
 
 historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
 print('line -------------------- 66')
@@ -113,7 +115,7 @@ if len(detect_res.data.detection_results)>0:
         else:
             print('No anomaly')
     
-historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": config})
+historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
 
 
 # json.dumps(outputdict,default=str)
