@@ -116,4 +116,4 @@ if len(detect_res.data.detection_results)>0:
 historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": "~/.oci/config"})
 
 
-json.dumps(outputdict,default=str)
+# json.dumps(outputdict,default=str)
