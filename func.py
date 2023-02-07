@@ -39,7 +39,7 @@ svc_endpoint = 'https://anomalydetection.aiservice.us-ashburn-1.oci.oraclecloud.
 namespace = 'apaccpt01'
 bucket_name = 'pi_ai_anomaly_detection'
 compartment_id = 'ocid1.compartment.oc1..aaaaaaaaezxuhazglgc4ybhpde43uoiifwitlezypdvnhn6xqro6nomw7neq'
-print('line -------------------- 40')
+print('line -------------------- 1a')
 config = from_file(configfile)
 ad_client = AnomalyDetectionClient(config, service_endpoint=svc_endpoint)
 payloadData=[]
@@ -55,7 +55,7 @@ def handler(ctx, data: io.BytesIO = None):
     ociStreamOcid = "ocid1.serviceconnector.oc1.iad.amaaaaaay5l3z3ya6dcobxgshlun7mgbgeako35bw3kli5dhig75y3kbz4ya"
     config = oci.config.from_file("config", "DEFAULT")
 
-    print('line -------------------- func.py--22')
+    print('line -------------------- func.py--1b')
 
     # config = oci.config.from_file(ociConfigFilePath, ociProfileName)
     stream_client = oci.streaming.StreamClient(
@@ -97,6 +97,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
 
 def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
+     print('line -------------------- func.py--1c')
     while True:
         get_response = client.get_messages(stream_id, cursor, limit=100)
         # No messages to process. return.
@@ -107,7 +108,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
        
 
         for message in get_response.data:
-            inputdata=['Machine1','2019-01-07T21:30:02Z', -0.799584669679329, -1.6622950856002754,
+            inputdata=['Machine2','2019-01-07T21:37:02Z', -0.799584669679329, -1.6622950856002754,
        -2.5713350176048646, -3.667976951202916, -1.9241455114801511,
        -0.9752628709707616, -1.8615682557702289, 0.4649194526022965,
        0.2561157490030738, -1.128104113585569, 0]
