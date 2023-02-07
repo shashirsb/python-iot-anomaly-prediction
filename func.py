@@ -115,8 +115,8 @@ def simple_message_loop(client, stream_id, initial_cursor):
                 key = "Null"
             else:
                 key = b64decode(message.key.encode()).decode()
-            print("{}: {}".format(key,
-                                  b64decode(message.value.encode()).decode()))
+            # print("{}: {}".format(key,
+            #                       b64decode(message.value.encode()).decode()))
             historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
 
             historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
