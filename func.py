@@ -121,7 +121,8 @@ def simple_message_loop(client, stream_id, initial_cursor):
             print(base64.b64decode(message.value))
             print("-------------------1c")
             print(message.value)
-            print("-------------------1a")
+            print("-------------------1d")
+            print(message)
             print("-------------------1a")
             print("-------------------1a")
             # if message.key is None:
