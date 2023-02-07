@@ -46,12 +46,3 @@ def publish_example_messages(client, stream_id):
     print("Publishing {} messages to the stream {} ".format(len(message_list), stream_id))
     messages = oci.streaming.models.PutMessagesDetails(messages=message_list)
     put_message_result = client.put_messages(stream_id, messages)
-
-    # The put_message_result can contain some useful metadata for handling failures
-    for entry in put_message_result.data.entries:
-        if entry.error:
-            print("Error ({}) : {}".format(entry.error, entry.error_message))
-        else:
-            print("Published message to partition {} , offset {}".format(entry.partition, entry.offset))
-
-publish_example_messages(stream_client, ociStreamOcid)
