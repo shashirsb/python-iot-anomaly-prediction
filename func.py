@@ -102,23 +102,24 @@ def simple_message_loop(client, stream_id, initial_cursor):
         # No messages to process. return.
         if not get_response.data:
             return
-        print('line -------------------- func.py--68')
-        # Process the messages
-        print('line -------------------- func.py--68')
-        print('line -------------------- func.py--68')
-        print('line -------------------- func.py--68')
+        # Process the messages 
         print(" Read {} messages".format(len(get_response.data)))
-        print('line -------------------- func.py--68')
-        print('line -------------------- func.py--68')
-        print('line -------------------- func.py--68')
+       
 
         for message in get_response.data:
             inputdata=['Machine1','2019-01-07T21:30:02Z', -0.799584669679329, -1.6622950856002754,
        -2.5713350176048646, -3.667976951202916, -1.9241455114801511,
        -0.9752628709707616, -1.8615682557702289, 0.4649194526022965,
        0.2561157490030738, -1.128104113585569, 0]
-
-            
+            print("-------------------1")
+            print("-------------------1")
+            print("-------------------1")
+            print("-------------------1")
+            print(b64decode(message.value.encode()).decode())
+            print("-------------------1")
+            print("-------------------1")
+            print("-------------------1")
+            print("-------------------1")
             # if message.key is None:
             #     key = "Null"
             # else:
