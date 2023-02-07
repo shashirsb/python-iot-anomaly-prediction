@@ -31,6 +31,24 @@ from oci.ai_anomaly_detection.models.detection_result_item import DetectionResul
 from oci.ai_anomaly_detection.models.inline_detect_anomalies_request import InlineDetectAnomaliesRequest
 
 
+ ### Anomaly Detection ###
+
+configfile = 'config'
+modelid = 'ocid1.aianomalydetectionmodel.oc1.iad.amaaaaaay5l3z3yan45sm3cykwmiprvchapu4heu32iaxrl4wcau543wufta'
+svc_endpoint = 'https://anomalydetection.aiservice.us-ashburn-1.oci.oraclecloud.com'
+namespace = 'apaccpt01'
+bucket_name = 'pi_ai_anomaly_detection'
+compartment_id = 'ocid1.compartment.oc1..aaaaaaaaezxuhazglgc4ybhpde43uoiifwitlezypdvnhn6xqro6nomw7neq'
+print('line -------------------- 40')
+config = from_file(configfile)
+ad_client = AnomalyDetectionClient(config, service_endpoint=svc_endpoint)
+payloadData=[]
+signalNames = ["machineid","timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5","anomaly"]
+col=["temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]
+outputdict={}
+    # df=pd.read_csv('anomaly_test_data.csv')
+
+
 def handler(ctx, data: io.BytesIO = None):
 
     ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"
@@ -64,24 +82,7 @@ def handler(ctx, data: io.BytesIO = None):
     # )
 
 
-    ### Anomaly Detection ###
-
-    configfile = 'config'
-    modelid = 'ocid1.aianomalydetectionmodel.oc1.iad.amaaaaaay5l3z3yan45sm3cykwmiprvchapu4heu32iaxrl4wcau543wufta'
-    svc_endpoint = 'https://anomalydetection.aiservice.us-ashburn-1.oci.oraclecloud.com'
-    namespace = 'apaccpt01'
-    bucket_name = 'pi_ai_anomaly_detection'
-    compartment_id = 'ocid1.compartment.oc1..aaaaaaaaezxuhazglgc4ybhpde43uoiifwitlezypdvnhn6xqro6nomw7neq'
-    print('line -------------------- 40')
-    config = from_file(configfile)
-    ad_client = AnomalyDetectionClient(config, service_endpoint=svc_endpoint)
-
-    payloadData=[]
-    signalNames = ["machineid","timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5","anomaly"]
-    col=["temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]
-    outputdict={}
-    # df=pd.read_csv('anomaly_test_data.csv')
-
+   
 
 def get_cursor_by_group(sc, sid, group_name, instance_name):
     print(" Creating a cursor for group {}, instance {}".format(
