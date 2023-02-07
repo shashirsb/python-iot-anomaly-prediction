@@ -98,13 +98,20 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
 def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
     while True:
-        get_response = client.get_messages(stream_id, cursor, limit=1)
+        get_response = client.get_messages(stream_id, cursor, limit=100)
         # No messages to process. return.
         if not get_response.data:
             return
         print('line -------------------- func.py--68')
         # Process the messages
+        print('line -------------------- func.py--68')
+        print('line -------------------- func.py--68')
+        print('line -------------------- func.py--68')
         print(" Read {} messages".format(len(get_response.data)))
+        print('line -------------------- func.py--68')
+        print('line -------------------- func.py--68')
+        print('line -------------------- func.py--68')
+
         for message in get_response.data:
             inputdata=['Machine1','2019-01-07T21:30:02Z', -0.799584669679329, -1.6622950856002754,
        -2.5713350176048646, -3.667976951202916, -1.9241455114801511,
@@ -121,13 +128,11 @@ def simple_message_loop(client, stream_id, initial_cursor):
             historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
 
             historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
-            print('line -------------------- 66')
-            print(historicaldata.tail(5))
+       
             # retain last T to T-21 rows
             svcpayload=[]
             payload=historicaldata[-21:]
-            print('line --------------------129')
-            print(payload[['timestamp']])
+
             for index,row in payload.iterrows():
                 timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
                 t=timestamp
