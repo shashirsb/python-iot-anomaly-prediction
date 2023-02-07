@@ -37,8 +37,8 @@ def publish_example_messages(client, stream_id):
     with open(filename, 'r') as file:
         # Read each line of the file
         for line in file:      
-            key = "iot".encode("utf-8")
-            value = line.encode("utf-8")
+            key = "iot"
+            value = line
             encoded_key = b64encode(key).decode()
             encoded_value = b64encode(value).decode()
             message_list.append(oci.streaming.models.PutMessagesDetailsEntry(key=encoded_key, value=encoded_value))

@@ -118,7 +118,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
             print("-------------------1a")
             print("-------------------1a")
             print("-------------------1c")
-            print(b64decode(message.value))
+            print(b64decode(message.value).decode())
         
 
             print("-------------------1c")
