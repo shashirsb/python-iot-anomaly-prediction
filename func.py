@@ -1,4 +1,4 @@
-from base64 import b64decode
+
 import io
 import json
 import logging
@@ -13,7 +13,7 @@ import numpy as np
 from fdk import response
 
 from datetime import datetime, date
-from codecs import encode, decode
+from base64 import b64encode, b64decode
 
 from oci.config import from_file
 from oci.ai_anomaly_detection.models import *
@@ -121,7 +121,8 @@ def simple_message_loop(client, stream_id, initial_cursor):
             print("-------------------1b")
             print(base64.b64decode(message.value))
             print("-------------------1c")
-            print(decode(message.value.encode(), "base64").decode())
+            print("{}: {}".format(b64decode(message.key.encode()).decode(),
+                                  b64decode(message.value.encode()).decode()))
             print("-------------------1a")
             print("-------------------1a")
             # if message.key is None:
