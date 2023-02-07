@@ -106,7 +106,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
         # Process the messages
         print(" Read {} messages".format(len(get_response.data)))
         for message in get_response.data:
-            inputdata=['Machine1','2019-01-08T01:29:06Z', -0.799584669679329, -1.6622950856002754,
+            inputdata=['Machine1','2019-01-08T02:29:06Z', -0.799584669679329, -1.6622950856002754,
        -2.5713350176048646, -3.667976951202916, -1.9241455114801511,
        -0.9752628709707616, -1.8615682557702289, 0.4649194526022965,
        0.2561157490030738, -1.128104113585569, 0]
