@@ -52,7 +52,7 @@ outputdict={}
 def handler(ctx, data: io.BytesIO = None):
 
     ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"
-    ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yaqdwgmejoadwuakvohzn7qigamnlxmh4rhvnv6brkevra"
+    ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yanvjrsg74zxrpfymoomjmdtoedo5bnn4te6wdhy6hsmka"
     config = oci.config.from_file("config", "DEFAULT")
 
     print('line -------------------- func.py--22')
