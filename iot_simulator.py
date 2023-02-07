@@ -1,59 +1,47 @@
-import sys
+import io
+import json
+import logging
+import oci
+import time
+import requests
 import base64
-import subprocess
+import sys
+
+
+
+from datetime import datetime, date
+from base64 import b64encode, b64decode
+
+from oci.config import from_file
+
 
 filename = sys.argv[1]
 
 
-# Open the file for reading
-with open(filename, 'r') as file:
-    # Read each line of the file
-    for line in file:
-        # Encode the line to base64
-        encoded_line = base64.b64encode(line.encode())
-        print('----------------1')
-        # Call the shell command with the encoded line as an argument
-        subprocess.call(['oci streaming stream message put --stream-id ',streamocid,' --messages \'[{\"key\":\"aW90Cg==\",\"value\":\"',encoded_line.decode(),'"}]\' --endpoint ',endpoint,' --debug'], shell=True)
-        #subprocess.call(['your_shell_command', encoded_line.decode()])
+ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"
+ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yanvjrsg74zxrpfymoomjmdtoedo5bnn4te6wdhy6hsmka"
+config = oci.config.from_file("config", "DEFAULT")
 
+print('line -------------------- func.py--1b')
 
-
-
-# coding: utf-8
-# Copyright (c) 2016, 2023, Oracle and/or its affiliates.  All rights reserved.
-# This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
-
-import oci
-import sys
-import time
-from base64 import b64encode, b64decode
-
-# ==========================================================
-# This file provides an example of basic streaming usage
-# * - List streams
-# * - Get a Stream
-# * - Create a Stream
-# * - Delete a Stream
-# * - Publish to a Stream
-# * - Consume from a stream partition using cursor
-# * - Consume from a stream using a group cursor
-# Documentation : https://docs.cloud.oracle.com/iaas/Content/Streaming/Concepts/streamingoverview.htm
-
-# Usage : python stream_example.py <compartment id>
-
-STREAM_NAME = "SdkExampleStream"
-PARTITIONS = 1
+# config = oci.config.from_file(ociConfigFilePath, ociProfileName)
+stream_client = oci.streaming.StreamClient(
+   config, service_endpoint=ociMessageEndpoint)
 
 
 def publish_example_messages(client, stream_id):
     # Build up a PutMessagesDetails and publish some messages to the stream
     message_list = []
-    for i in range(100):
-        key = "key" + str(i)
-        value = "value" + str(i)
-        encoded_key = b64encode(key.encode()).decode()
-        encoded_value = b64encode(value.encode()).decode()
-        message_list.append(oci.streaming.models.PutMessagesDetailsEntry(key=encoded_key, value=encoded_value))
+
+    # Open the file for reading
+    with open(filename, 'r') as file:
+        # Read each line of the file
+        for line in file:      
+            key = "iot"
+            value = line
+            encoded_key = b64encode(key.encode()).decode()
+            encoded_value = b64encode(value.encode()).decode()
+            message_list.append(oci.streaming.models.PutMessagesDetailsEntry(key=encoded_key, value=encoded_value))
 
     print("Publishing {} messages to the stream {} ".format(len(message_list), stream_id))
     messages = oci.streaming.models.PutMessagesDetails(messages=message_list)
@@ -66,81 +54,4 @@ def publish_example_messages(client, stream_id):
         else:
             print("Published message to partition {} , offset {}".format(entry.partition, entry.offset))
 
-
-def get_or_create_stream(client, compartment_id, stream_name, partition, sac_composite):
-
-    list_streams = client.list_streams(compartment_id=compartment_id, name=stream_name,
-                                       lifecycle_state=oci.streaming.models.StreamSummary.LIFECYCLE_STATE_ACTIVE)
-    if list_streams.data:
-        # If we find an active stream with the correct name, we'll use it.
-        print("An active stream {} has been found".format(stream_name))
-        sid = list_streams.data[0].id
-        return get_stream(sac_composite.client, sid)
-
-    print(" No Active stream  {} has been found; Creating it now. ".format(stream_name))
-    print(" Creating stream {} with {} partitions.".format(stream_name, partition))
-
-    # Create stream_details object that need to be passed while creating stream.
-    stream_details = oci.streaming.models.CreateStreamDetails(name=stream_name, partitions=partition,
-                                                              compartment_id=compartment, retention_in_hours=24)
-
-    # Since stream creation is asynchronous; we need to wait for the stream to become active.
-    response = sac_composite.create_stream_and_wait_for_state(
-        stream_details, wait_for_states=[oci.streaming.models.StreamSummary.LIFECYCLE_STATE_ACTIVE])
-    return response
-
-
-def get_stream(admin_client, stream_id):
-    return admin_client.get_stream(stream_id)
-
-
-
-
-
-
-
-
-# Load the default configuration
-config = oci.config.from_file()
-
-# Create a StreamAdminClientCompositeOperations for composite operations.
-stream_admin_client = oci.streaming.StreamAdminClient(config)
-stream_admin_client_composite = oci.streaming.StreamAdminClientCompositeOperations(stream_admin_client)
-
-if len(sys.argv) != 2:
-    raise RuntimeError('This example expects an ocid for the compartment in which streams should be created.')
-
-compartment = sys.argv[1]
-
-# We  will reuse a stream if its already created.
-# This will utilize list_streams() to determine if a stream exists and return it, or create a new one.
-stream = get_or_create_stream(stream_admin_client, compartment, STREAM_NAME,
-                              PARTITIONS, stream_admin_client_composite).data
-
-print(" Created Stream {} with id : {}".format(stream.name, stream.id))
-
-# Streams are assigned a specific endpoint url based on where they are provisioned.
-# Create a stream client using the provided message endpoint.
-stream_client = oci.streaming.StreamClient(config, service_endpoint=stream.messages_endpoint)
-s_id = stream.id
-
-# Publish some messages to the stream
-publish_example_messages(stream_client, s_id)
-
-# Use a cursor for getting messages; each get_messages call will return a next-cursor for iteration.
-# There are a couple kinds of cursors.
-# A cursor can be created at a given partition/offset.
-# This gives explicit offset management control to the consumer.
-
-print("Starting a simple message loop with a partition cursor")
-partition_cursor = get_cursor_by_partition(stream_client, s_id, partition="0")
-simple_message_loop(stream_client, s_id, partition_cursor)
-
-# A cursor can be created as part of a consumer group.
-# Committed offsets are managed for the group, and partitions
-# are dynamically balanced amongst consumers in the group.
-group_cursor = get_cursor_by_group(stream_client, s_id, "example-group", "example-instance-1")
-simple_message_loop(stream_client, s_id, group_cursor)
-
-# Cleanup; remember to delete streams which are not in use.
-delete_stream(stream_admin_client_composite, s_id)
+publish_example_messages(stream_client, ociStreamOcid)
