@@ -7,4 +7,3 @@ pyarrow
 numpy
 datetime
 fsspec
-codecs
