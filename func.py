@@ -111,10 +111,10 @@ def simple_message_loop(client, stream_id, initial_cursor):
        0.2561157490030738, -1.128104113585569, 0]
 
             
-            if message.key is None:
-                key = "Null"
-            else:
-                key = b64decode(message.key.encode()).decode()
+            # if message.key is None:
+            #     key = "Null"
+            # else:
+            #     key = b64decode(message.key.encode()).decode()
             # print("{}: {}".format(key,
             #                       b64decode(message.value.encode()).decode()))
             historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
