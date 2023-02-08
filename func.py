@@ -135,65 +135,65 @@ def simple_message_loop(client, stream_id, initial_cursor):
             #     key = b64decode(message.key.encode()).decode()
             # print("{}: {}".format(key,
             #                       b64decode(message.value.encode()).decode()))
-            historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
+            # historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
 
-            historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
+            # historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
        
-            # retain last T to T-21 rows
-            svcpayload=[]
-            payload=historicaldata[-21:]
+            # # retain last T to T-21 rows
+            # svcpayload=[]
+            # payload=historicaldata[-21:]
 
-            for index,row in payload.iterrows():
-                timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
-                t=timestamp
-                values = list(row[col])
-                dItem = DataItem(timestamp=timestamp, values=values)
-                svcpayload.append(dItem)
+            # for index,row in payload.iterrows():
+            #     timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
+            #     t=timestamp
+            #     values = list(row[col])
+            #     dItem = DataItem(timestamp=timestamp, values=values)
+            #     svcpayload.append(dItem)
                 
-            inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
-            detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
+            # inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
+            # detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
 
 
-            li_anomalies=[]
-            li_hist_anomalies=[]
+            # li_anomalies=[]
+            # li_hist_anomalies=[]
 
-            if len(detect_res.data.detection_results)>0:
-                # check if T is anomaly
-                for rec in detect_res.data.detection_results:
-                    if rec.timestamp.replace(tzinfo=None)==t:
-                        print('T is anomaly')
+            # if len(detect_res.data.detection_results)>0:
+            #     # check if T is anomaly
+            #     for rec in detect_res.data.detection_results:
+            #         if rec.timestamp.replace(tzinfo=None)==t:
+            #             print('T is anomaly')
                         
-                        if historicaldata[-10:]['anomaly'].sum() > 0:
-                            print('red flag')
-                            for val in detect_res.data.detection_results:
-                                for val1 in val.anomalies:
-                                    anomalyjson={'actual_value':val1.actual_value,'estimated_value':val1.estimated_value,'signal_name':val1.signal_name}
-                                    li_anomalies.append(anomalyjson)
+            #             if historicaldata[-10:]['anomaly'].sum() > 0:
+            #                 print('red flag')
+            #                 for val in detect_res.data.detection_results:
+            #                     for val1 in val.anomalies:
+            #                         anomalyjson={'actual_value':val1.actual_value,'estimated_value':val1.estimated_value,'signal_name':val1.signal_name}
+            #                         li_anomalies.append(anomalyjson)
                             
-                            for ix,row in historicaldata[historicaldata['anomaly']==1][-10:].iterrows():
-                                anomalyjson={'pastincidents_time':row['timestamp']}
-                                li_hist_anomalies.append(anomalyjson)
+            #                 for ix,row in historicaldata[historicaldata['anomaly']==1][-10:].iterrows():
+            #                     anomalyjson={'pastincidents_time':row['timestamp']}
+            #                     li_hist_anomalies.append(anomalyjson)
                             
-                            outputdict={'time':val.timestamp,'anomalies':li_anomalies,'anomalytype':'warning','historicalval':li_hist_anomalies}
-                        else:
-                            print('one time off')
-                            for val in detect_res.data.detection_results:
-                                for val1 in val.anomalies:
-                                    print(val1)
-                                    anomalyjson={'actual_value':val1.actual_value,'estimated_value':val1.estimated_value,'signal_name':val1.signal_name}
-                                    li_anomalies.append(anomalyjson)
-                            outputdict={'time':val.timestamp,'anomalies':li_anomalies,'anomalytype':'warning','historicalval':li_hist_anomalies}
+            #                 outputdict={'time':val.timestamp,'anomalies':li_anomalies,'anomalytype':'warning','historicalval':li_hist_anomalies}
+            #             else:
+            #                 print('one time off')
+            #                 for val in detect_res.data.detection_results:
+            #                     for val1 in val.anomalies:
+            #                         print(val1)
+            #                         anomalyjson={'actual_value':val1.actual_value,'estimated_value':val1.estimated_value,'signal_name':val1.signal_name}
+            #                         li_anomalies.append(anomalyjson)
+            #                 outputdict={'time':val.timestamp,'anomalies':li_anomalies,'anomalytype':'warning','historicalval':li_hist_anomalies}
                         
                         
-                        historicaldata.iloc[-1,historicaldata.columns.get_loc('anomaly')]=1
-                    else:
-                        print('No anomaly')
+            #             historicaldata.iloc[-1,historicaldata.columns.get_loc('anomaly')]=1
+            #         else:
+            #             print('No anomaly')
                 
-            historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
+            # historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
 
 
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
-        time.sleep(1)
+        # time.sleep(1)
         # use the next-cursor for iteration
         cursor = get_response.headers["opc-next-cursor"]
