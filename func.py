@@ -8,6 +8,7 @@ import requests
 import base64
 import pandas as pd
 import numpy as np
+import csv
 
 
 from fdk import response
@@ -112,8 +113,14 @@ def simple_message_loop(client, stream_id, initial_cursor):
             sample_string = sample_string_bytes.decode("utf-8")
             print(sample_string)
             
-            #inputdata = [sample_string]
-            inputdata = ['Machine13','2019-01-07T22:29:02Z',-1.070202697,-1.443707908,-2.253762406,1.367867943,-1.145968481,-0.450049023,-1.962963696,-2.262317427,-0.774198291,-1.106978044,0]
+            inputdata = []
+            reader = csv.reader(sample_string.split('\n'), delimiter=',')
+            
+            for row in reader:
+                inputdata.append(row)
+
+            
+            #inputdata = ['Machine13','2019-01-07T22:29:02Z',-1.070202697,-1.443707908,-2.253762406,1.367867943,-1.145968481,-0.450049023,-1.962963696,-2.262317427,-0.774198291,-1.106978044,0]
 
           
             print("-------------------1cccc")
