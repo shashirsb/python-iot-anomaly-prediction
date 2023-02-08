@@ -90,7 +90,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
         group_name, instance_name))
     cursor_details = oci.streaming.models.CreateGroupCursorDetails(group_name=group_name, instance_name=instance_name,
                                                                    type=oci.streaming.models.
-                                                                   CreateGroupCursorDetails.LATEST,
+                                                                   CreateGroupCursorDetails.TYPE_LATEST,
                                                                    commit_on_get=True)
     response = sc.create_group_cursor(sid, cursor_details)
     return response.data.value
