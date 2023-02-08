@@ -53,7 +53,7 @@ outputdict={}
 def handler(ctx, data: io.BytesIO = None):
 
     ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"
-    ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yanvjrsg74zxrpfymoomjmdtoedo5bnn4te6wdhy6hsmka"
+    ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yayeorzxlmzhnvcj2fvfnexvqgoq5r2w4ezpjht7mhk3na"
     config = oci.config.from_file("config", "DEFAULT")
 
     print('line -------------------- func.py--1b')
@@ -90,7 +90,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
         group_name, instance_name))
     cursor_details = oci.streaming.models.CreateGroupCursorDetails(group_name=group_name, instance_name=instance_name,
                                                                    type=oci.streaming.models.
-                                                                   CreateGroupCursorDetails.TYPE_TRIM_HORIZON,
+                                                                   CreateGroupCursorDetails.LATEST,
                                                                    commit_on_get=True)
     response = sc.create_group_cursor(sid, cursor_details)
     return response.data.value
