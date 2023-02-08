@@ -113,13 +113,11 @@ def simple_message_loop(client, stream_id, initial_cursor):
             sample_string = sample_string_bytes.decode("utf-8")
             print(sample_string)
             
-            inputdata = []
-            reader = csv.reader(sample_string.split('\n'), delimiter=',')
-            
-            for row in reader:
-                inputdata.append(row)
+        
+            reader = sample_string.split(',')
+            inputdata = [ reader[0].replace('\'', '') ,reader[1].replace('\'', '') , float(reader[2]), float(reader[3]), float(reader[4]), float(reader[5]), float(reader[6]), float(reader[7]), float(reader[8]), float(reader[9]), float(reader[10]), float(reader[11]), float(reader[12])]
 
-            
+            print(inputdata)
             #inputdata = ['Machine13','2019-01-07T22:29:02Z',-1.070202697,-1.443707908,-2.253762406,1.367867943,-1.145968481,-0.450049023,-1.962963696,-2.262317427,-0.774198291,-1.106978044,0]
 
           
@@ -133,7 +131,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
             #                       b64decode(message.value.encode()).decode()))
             historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
 
-            historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
+            historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata[0]],columns=signalNames)])
        
             # retain last T to T-21 rows
             svcpayload=[]
