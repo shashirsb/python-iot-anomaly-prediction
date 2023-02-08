@@ -69,18 +69,6 @@ def handler(ctx, data: io.BytesIO = None):
         stream_client, ociStreamOcid, "example-group", "example-instance-1")
     simple_message_loop(stream_client, ociStreamOcid, group_cursor)
 
-    #    try:
-    #         body = json.loads(data.getvalue())
-    #         name = body.get("name")
-    #     except (Exception, ValueError) as ex:
-    #         logging.getLogger().info('error parsing json payload: ' + str(ex))
-
-    #     logging.getLogger().info("Inside Python Hello World function")
-    #     return response.Response(
-    #         ctx, response_data=json.dumps(
-    #             {"message": "Hello {0}".format(name)}),
-    #         headers={"Content-Type": "application/json"}
-    # )
 
 
    
@@ -100,7 +88,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
     print('line -------------------- func.py--1c')
     while True:
-        get_response = client.get_messages(stream_id, cursor, limit=100)
+        get_response = client.get_messages(stream_id, cursor, limit=10)
         # No messages to process. return.
         if not get_response.data:
             return
@@ -194,6 +182,6 @@ def simple_message_loop(client, stream_id, initial_cursor):
 
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
-        # time.sleep(1)
+        time.sleep(1)
         # use the next-cursor for iteration
         cursor = get_response.headers["opc-next-cursor"]
