@@ -5,7 +5,7 @@
 import oci
 import sys
 import time
-from base64 import b64encode, b64decode
+import base64
 
 # ==========================================================
 # This file provides an example of basic streaming usage
@@ -30,8 +30,8 @@ def publish_example_messages(client, stream_id):
     for i in range(100):
         key = "key" + str(i)
         value = "value" + str(i)
-        encoded_key = b64encode(key.encode()).decode()
-        encoded_value = b64encode(value.encode()).decode()
+        encoded_key = (base64.b64encode((key.encode("utf-8")))).decode("utf-8")
+        encoded_value = (base64.b64encode((value.encode("utf-8")))).decode("utf-8")
         message_list.append(oci.streaming.models.PutMessagesDetailsEntry(key=encoded_key, value=encoded_value))
 
     print("Publishing {} messages to the stream {} ".format(len(message_list), stream_id))
@@ -100,9 +100,14 @@ def simple_message_loop(client, stream_id, initial_cursor):
         # Process the messages
         print(" Read {} messages".format(len(get_response.data)))
         for message in get_response.data:
-            print(b64decode(message.key.encode()).decode())
+            #print(b64decode(message.key.encode()).decode())
             #   b64decode(message.value.encode()).decode())
-
+            base64_string = message.value
+            base64_bytes = base64_string.encode("utf-8")
+            
+            sample_string_bytes = base64.b64decode(base64_bytes)
+            sample_string = sample_string_bytes.decode("utf-8")
+            print(sample_string)
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
         time.sleep(1)
