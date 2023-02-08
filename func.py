@@ -112,8 +112,9 @@ def simple_message_loop(client, stream_id, initial_cursor):
             sample_string = sample_string_bytes.decode("utf-8")
             print(sample_string)
             
-            inputdata=[sample_string]
+            inputdata=[[sample_string]]
 
+          
             print("-------------------1cccc")
             print("-------------------1a")
             # if message.key is None:
