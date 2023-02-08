@@ -117,7 +117,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
             print("-------------------1a")
             print("-------------------1a")
             print("-------------------1a")
-            print("-------------------1c")
+            print("-------------------1ccc")
             #print(b64decode(message.value).decode('utf-8'))
             base64_string = message.value
             base64_bytes = base64_string.encode("utf-8")
@@ -127,7 +127,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
             print(sample_string)
         
 
-            print("-------------------1c")
+            print("-------------------1cccc")
             print("-------------------1a")
             # if message.key is None:
             #     key = "Null"
