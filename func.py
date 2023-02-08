@@ -90,7 +90,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
         group_name, instance_name))
     cursor_details = oci.streaming.models.CreateGroupCursorDetails(group_name=group_name, instance_name=instance_name,
                                                                    type=oci.streaming.models.
-                                                                   CreateGroupCursorDetails.TYPE_LATEST,
+                                                                   CreateGroupCursorDetails.TYPE_TRIM_HORIZON,
                                                                    commit_on_get=True)
     response = sc.create_group_cursor(sid, cursor_details)
     return response.data.value
@@ -100,13 +100,13 @@ def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
     print('line -------------------- func.py--1c')
     while True:
-        get_response = client.get_messages(stream_id, cursor, limit=2)
+        get_response = client.get_messages(stream_id, cursor, limit=100)
         # No messages to process. return.
         if not get_response.data:
             return
         # Process the messages 
         print(" Read {} messages".format(len(get_response.data)))
-       
+        print(get_response.data)
 
         for message in get_response.data:
             inputdata=['Machine2','2019-01-07T21:37:02Z', -0.799584669679329, -1.6622950856002754,
