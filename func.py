@@ -122,10 +122,11 @@ def simple_message_loop(client, stream_id, initial_cursor):
 
 
             historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
-
+            
             # retain last T to T-21 rows
             svcpayload=[]
             payload=historicaldata[-21:]
+           
             for index,row in payload.iterrows():
                 timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
                 t=timestamp
