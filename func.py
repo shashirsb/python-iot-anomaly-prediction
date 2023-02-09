@@ -186,6 +186,6 @@ def simple_message_loop(client, stream_id, initial_cursor):
 
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
-        time.sleep(1)
+        time.sleep(2)
         # use the next-cursor for iteration
         cursor = get_response.headers["opc-next-cursor"]
