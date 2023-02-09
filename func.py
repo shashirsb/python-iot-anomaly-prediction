@@ -189,7 +189,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
             auth=(dbschema, dbpwd)
             # r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
             historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
-
+            historicaldata = ""
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
         time.sleep(1)
