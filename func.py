@@ -117,7 +117,8 @@ def simple_message_loop(client, stream_id, initial_cursor):
           
      
                         #read historical data
-            
+            t=pd.DataFrame(data=[inputdata],columns=signalNames)
+            t.to_csv('oci://'+bucket_name+'/file_'+inputdata[1]+'.csv',index=False,storage_options = {"config": configfile})
             historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
             historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
             
