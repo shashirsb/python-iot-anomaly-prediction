@@ -87,7 +87,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
 def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
     while True:
-        get_response = client.get_messages(stream_id, cursor, limit=10)
+        get_response = client.get_messages(stream_id, cursor, limit=1)
         # No messages to process. return.
         if not get_response.data:
             return
