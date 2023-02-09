@@ -187,8 +187,8 @@ def simple_message_loop(client, stream_id, initial_cursor):
             dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/_/sql'
             headers = {"Content-Type": "application/sql"}
             auth=(dbschema, dbpwd)
-            r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
-            # historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
+            # r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
+            historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
 
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
