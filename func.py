@@ -143,29 +143,29 @@ def simple_message_loop(client, stream_id, initial_cursor):
             inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
             detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
 
-            # ins=''
-            # temp1=pd.DataFrame()
-            # li_anomalies_dbentry=[]
-            # temp=historicaldata[-1:][["timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]].melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
-            # temp['timestamp']=temp['timestamp'].apply(lambda x:x[:19])
-            # print(t)
-            # if len(detect_res.data.detection_results)>0:
-            #     for rec in detect_res.data.detection_results:
-            #         if rec.timestamp.replace(tzinfo=None)==t:
-            #             print('Anomaly in Present T')
-            #             if historicaldata[-10:]['anomaly'].sum() > 0:
-            #                 print('red flag')
-            #             else:
-            #                 print('one time off')           
-            #             for point in rec.anomalies:
-            #                 li_anomalies_dbentry.append([point.signal_name,point.estimated_value])
-            #             temp1=pd.DataFrame(li_anomalies_dbentry,columns=['sensor','expectedvalue'])
-            #             historicaldata.iloc[-1,historicaldata.columns.get_loc('anomaly')]=1
+            ins=''
+            temp1=pd.DataFrame()
+            li_anomalies_dbentry=[]
+            temp=historicaldata[-1:][["timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]].melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
+            temp['timestamp']=temp['timestamp'].apply(lambda x:x[:19])
+            print(t)
+            if len(detect_res.data.detection_results)>0:
+                for rec in detect_res.data.detection_results:
+                    if rec.timestamp.replace(tzinfo=None)==t:
+                        print('Anomaly in Present T')
+                        if historicaldata[-10:]['anomaly'].sum() > 0:
+                            print('red flag')
+                        else:
+                            print('one time off')           
+                        for point in rec.anomalies:
+                            li_anomalies_dbentry.append([point.signal_name,point.estimated_value])
+                        temp1=pd.DataFrame(li_anomalies_dbentry,columns=['sensor','expectedvalue'])
+                        historicaldata.iloc[-1,historicaldata.columns.get_loc('anomaly')]=1
 
-            #         else:
-            #             print('Anomalies in Present T minus')
-            # else:
-            #     print('0 anomalies')
+                    else:
+                        print('Anomalies in Present T minus')
+            else:
+                print('0 anomalies')
 
             # temp=historicaldata[-1:][["timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]].melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
             # temp['timestamp']=temp['timestamp'].apply(lambda x:x[:19])
