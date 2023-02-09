@@ -182,11 +182,11 @@ def simple_message_loop(client, stream_id, initial_cursor):
             for ix,row in temp.iterrows():
                 ins=ins+'('+row['insertscript']+') into PPANOMALYDS5 values'
             ins=ins[:-24]+' select 1 from dual'
-            # dbschema='admin'
-            # dbpwd='Autonomous14#'
-            # dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/_/sql'
-            # headers = {"Content-Type": "application/sql"}
-            # auth=(dbschema, dbpwd)
+            dbschema='admin'
+            dbpwd='Autonomous14#'
+            dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/_/sql'
+            headers = {"Content-Type": "application/sql"}
+            auth=(dbschema, dbpwd)
             # r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
             # historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
 
