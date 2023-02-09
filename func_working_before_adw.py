@@ -116,73 +116,68 @@ def simple_message_loop(client, stream_id, initial_cursor):
 
           
      
-                        #read historical data
-
+            # if message.key is None:
+            #     key = "Null"
+            # else:
+            #     key = b64decode(message.key.encode()).decode()
+            # print("{}: {}".format(key,
+            #                       b64decode(message.value.encode()).decode()))
             historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
 
-
             historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
-
+       
             # retain last T to T-21 rows
             svcpayload=[]
             payload=historicaldata[-21:]
+
             for index,row in payload.iterrows():
                 timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
                 t=timestamp
                 values = list(row[col])
                 dItem = DataItem(timestamp=timestamp, values=values)
                 svcpayload.append(dItem)
-
+                
             inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
             detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
 
-            ins=''
-            temp1=pd.DataFrame()
-            li_anomalies_dbentry=[]
-            temp=historicaldata[-1:][["timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]].melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
-            temp['timestamp']=temp['timestamp'].apply(lambda x:x[:19])
-            print(t)
+
+            li_anomalies=[]
+            li_hist_anomalies=[]
+
             if len(detect_res.data.detection_results)>0:
+                # check if T is anomaly
                 for rec in detect_res.data.detection_results:
                     if rec.timestamp.replace(tzinfo=None)==t:
-                        print('Anomaly in Present T')
+                        print('T is anomaly')
+                        
                         if historicaldata[-10:]['anomaly'].sum() > 0:
                             print('red flag')
+                            for val in detect_res.data.detection_results:
+                                for val1 in val.anomalies:
+                                    anomalyjson={'actual_value':val1.actual_value,'estimated_value':val1.estimated_value,'signal_name':val1.signal_name}
+                                    li_anomalies.append(anomalyjson)
+                            
+                            for ix,row in historicaldata[historicaldata['anomaly']==1][-10:].iterrows():
+                                anomalyjson={'pastincidents_time':row['timestamp']}
+                                li_hist_anomalies.append(anomalyjson)
+                            
+                            outputdict={'time':val.timestamp,'anomalies':li_anomalies,'anomalytype':'warning','historicalval':li_hist_anomalies}
                         else:
-                            print('one time off')           
-                        for point in rec.anomalies:
-                            li_anomalies_dbentry.append([point.signal_name,point.estimated_value])
-                        temp1=pd.DataFrame(li_anomalies_dbentry,columns=['sensor','expectedvalue'])
+                            print('one time off')
+                            for val in detect_res.data.detection_results:
+                                for val1 in val.anomalies:
+                                    print(val1)
+                                    anomalyjson={'actual_value':val1.actual_value,'estimated_value':val1.estimated_value,'signal_name':val1.signal_name}
+                                    li_anomalies.append(anomalyjson)
+                            outputdict={'time':val.timestamp,'anomalies':li_anomalies,'anomalytype':'warning','historicalval':li_hist_anomalies}
+                        
+                        
                         historicaldata.iloc[-1,historicaldata.columns.get_loc('anomaly')]=1
-
                     else:
-                        print('Anomalies in Present T minus')
-            else:
-                print('0 anomalies')
-
-            temp=historicaldata[-1:][["timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]].melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
-            temp['timestamp']=temp['timestamp'].apply(lambda x:x[:19])
-            if len(temp1)>0:
-                print('temp1')
-                temp=temp.merge(temp1,on='sensor',how='left')
-                temp['expectedvalue']=temp.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
-            else:
-                temp['expectedvalue']=temp['value']
-            temp.rename(columns={'timestamp':'lookup'},inplace=True)
-            temp['value_s']=np.round(temp['value'],4).map(str)
-            temp['expectedvalue_s']=np.round(temp['expectedvalue'],4).map(str)
-            temp['insertscript']=temp.apply(lambda x:"'"+x['lookup']+"','"+x['sensor']+"',"+x['value_s']+","+x['expectedvalue_s'],axis=1)
-            ins='insert all into PPANOMALYDS5 values '
-            for ix,row in temp.iterrows():
-                ins=ins+'('+row['insertscript']+') into PPANOMALYDS5 values'
-            ins=ins[:-24]+' select 1 from dual'
-            dbschema='admin'
-            dbpwd='Autonomous14#'
-            dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/_/sql'
-            headers = {"Content-Type": "application/sql"}
-            auth=(dbschema, dbpwd)
-            r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
+                        print('No anomaly')
+                
             historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
+
 
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.

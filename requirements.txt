@@ -7,3 +7,4 @@ pyarrow
 numpy
 datetime
 fsspec
+requests
