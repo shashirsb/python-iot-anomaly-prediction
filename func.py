@@ -58,7 +58,6 @@ def handler(ctx, data: io.BytesIO = None):
     ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yayeorzxlmzhnvcj2fvfnexvqgoq5r2w4ezpjht7mhk3na"
     config = oci.config.from_file("config", "DEFAULT")
 
-    print('line -------------------- func.py--1b')
 
     # config = oci.config.from_file(ociConfigFilePath, ociProfileName)
     stream_client = oci.streaming.StreamClient(
@@ -88,7 +87,6 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
 
 def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
-    print('line -------------------- func.py--1c')
     while True:
         get_response = client.get_messages(stream_id, cursor, limit=10)
         # No messages to process. return.
@@ -100,11 +98,6 @@ def simple_message_loop(client, stream_id, initial_cursor):
 
         for message in get_response.data:
             
-            print("-------------------1a")
-            print("-------------------1a")
-            print("-------------------1a")
-            print("-------------------1a")
-            print("-------------------1ccc")
             #print(b64decode(message.value).decode('utf-8'))
             base64_string = message.value
             base64_bytes = base64_string.encode("utf-8")
@@ -117,26 +110,13 @@ def simple_message_loop(client, stream_id, initial_cursor):
             reader = sample_string.split(',')
             inputdata = [ reader[0].replace('\'', '') ,reader[1].replace('\'', '') , float(reader[2]), float(reader[3]), float(reader[4]), float(reader[5]), float(reader[6]), float(reader[7]), float(reader[8]), float(reader[9]), float(reader[10]), float(reader[11]), int(reader[12])]
 
-            # inputdata.append(reader[0].replace('\'', ''))
-            # inputdata.append(reader[1].replace('\'', ''))
-            # inputdata.append(float(reader[2]))
-            # inputdata.append(float(reader[3]))
-            # inputdata.append(float(reader[4]))
-            # inputdata.append(float(reader[5]))
-            # inputdata.append(float(reader[6]))
-            # inputdata.append(float(reader[7]))
-            # inputdata.append(float(reader[8]))
-            # inputdata.append(float(reader[9]))
-            # inputdata.append(float(reader[10]))
-            # inputdata.append(float(reader[11]))
-            # inputdata.append(int(reader[12])
+            
 
             print(inputdata)
             #inputdata = ['Machine13','2019-01-07T22:29:02Z',-1.070202697,-1.443707908,-2.253762406,1.367867943,-1.145968481,-0.450049023,-1.962963696,-2.262317427,-0.774198291,-1.106978044,0]
 
           
-            print("-------------------1cccc")
-            print("-------------------1a")
+     
             # if message.key is None:
             #     key = "Null"
             # else:
