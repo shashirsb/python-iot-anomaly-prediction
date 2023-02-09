@@ -179,9 +179,9 @@ def simple_message_loop(client, stream_id, initial_cursor):
             temp['expectedvalue_s']=np.round(temp['expectedvalue'],4).map(str)
             temp['insertscript']=temp.apply(lambda x:"'"+x['lookup']+"','"+x['sensor']+"',"+x['value_s']+","+x['expectedvalue_s'],axis=1)
             ins='insert all into PPANOMALYDS5 values '
-            # for ix,row in temp.iterrows():
-            #     ins=ins+'('+row['insertscript']+') into PPANOMALYDS5 values'
-            # ins=ins[:-24]+' select 1 from dual'
+            for ix,row in temp.iterrows():
+                ins=ins+'('+row['insertscript']+') into PPANOMALYDS5 values'
+            ins=ins[:-24]+' select 1 from dual'
             # dbschema='admin'
             # dbpwd='Autonomous14#'
             # dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/_/sql'
