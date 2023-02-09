@@ -87,7 +87,7 @@ def get_cursor_by_group(sc, sid, group_name, instance_name):
 def simple_message_loop(client, stream_id, initial_cursor):
     cursor = initial_cursor
     while True:
-        get_response = client.get_messages(stream_id, cursor, limit=1)
+        get_response = client.get_messages(stream_id, cursor, limit=100)
         # No messages to process. return.
         if not get_response.data:
             return
@@ -103,7 +103,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
             
             sample_string_bytes = base64.b64decode(base64_bytes)
             sample_string = sample_string_bytes.decode("utf-8")
-            print(sample_string)
+            print(  )
             
         
             reader = sample_string.split(',')
@@ -117,8 +117,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
           
      
                         #read historical data
-            pd.DataFrame(data=[inputdata],columns=signalNames).to_csv('oci://'+bucket_name+'/file_'+inputdata[1]+'.csv',index=False,storage_options = {"config": configfile})
-
+            
             historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
             historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
             
