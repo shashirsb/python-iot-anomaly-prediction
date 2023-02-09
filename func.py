@@ -133,6 +133,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
                 dItem = DataItem(timestamp=timestamp, values=values)
                 svcpayload.append(dItem)
 
+            payload.to_csv('oci://'+bucket_name+'/'+str(t)+'.csv',index=False,storage_options = {"config": configfile})
             inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
             detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
 
