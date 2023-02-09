@@ -120,28 +120,28 @@ def simple_message_loop(client, stream_id, initial_cursor):
                         #read historical data
             t=pd.DataFrame(data=[inputdata],columns=signalNames)
             t.to_csv('oci://'+bucket_name+'/file_'+inputdata[1]+'.csv',index=False,storage_options = {"config": configfile})
-            # historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
-            # historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
+            historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
+            historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
             
             
             
-            # # retain last T to T-21 rows
-            # svcpayload=[]
-            # payload=historicaldata[-21:]
+            # retain last T to T-21 rows
+            svcpayload=[]
+            payload=historicaldata[-21:]
 
-            # payload.sort_values(by=['timestamp'],inplace=True)
-            # payload.drop_duplicates(subset=['timestamp'],keep='first')
+            payload.sort_values(by=['timestamp'],inplace=True)
+            payload.drop_duplicates(subset=['timestamp'],keep='first')
            
-            # for index,row in payload.iterrows():
-            #     timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
-            #     t=timestamp
-            #     values = list(row[col])
-            #     dItem = DataItem(timestamp=timestamp, values=values)
-            #     svcpayload.append(dItem)
+            for index,row in payload.iterrows():
+                timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
+                t=timestamp
+                values = list(row[col])
+                dItem = DataItem(timestamp=timestamp, values=values)
+                svcpayload.append(dItem)
 
-            # payload.to_csv('oci://'+bucket_name+'/'+str(t)+'.csv',index=False,storage_options = {"config": configfile})
-            # inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
-            # detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
+            payload.to_csv('oci://'+bucket_name+'/'+str(t)+'.csv',index=False,storage_options = {"config": configfile})
+            inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
+            detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
 
             # ins=''
             # temp1=pd.DataFrame()
