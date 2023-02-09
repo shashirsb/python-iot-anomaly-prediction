@@ -51,24 +51,56 @@ outputdict={}
     # df=pd.read_csv('anomaly_test_data.csv')
 
 
-
 def handler(ctx, data: io.BytesIO = None):
 
-    logger = logging.getLogger()
+    ociMessageEndpoint = "https://cell-1.streaming.us-ashburn-1.oci.oraclecloud.com"
+    ociStreamOcid = "ocid1.stream.oc1.iad.amaaaaaay5l3z3yayeorzxlmzhnvcj2fvfnexvqgoq5r2w4ezpjht7mhk3na"
+    config = oci.config.from_file("config", "DEFAULT")
 
-    try:
-        logs = json.loads(data.getvalue())
-        logger.info('Received {} entries.'.format(len(logs)))
 
-        for item in logs:
-            if 'value' in item:
-                print(base64_decode(item['value']))
+    # config = oci.config.from_file(ociConfigFilePath, ociProfileName)
+    stream_client = oci.streaming.StreamClient(
+        config, service_endpoint=ociMessageEndpoint)
 
-            if 'key' in item:
-                print(base64_decode(item['key']))  
+    # A cursor can be created as part of a consumer group.
+    # Committed offsets are managed for the group, and partitions
+    # are dynamically balanced amongst consumers in the group.
+    group_cursor = get_cursor_by_group(
+        stream_client, ociStreamOcid, "example-group", "example-instance-1")
+    simple_message_loop(stream_client, ociStreamOcid, group_cursor)
 
+
+
+   
+
+def get_cursor_by_group(sc, sid, group_name, instance_name):
+    print(" Creating a cursor for group {}, instance {}".format(
+        group_name, instance_name))
+    cursor_details = oci.streaming.models.CreateGroupCursorDetails(group_name=group_name, instance_name=instance_name,
+                                                                   type=oci.streaming.models.
+                                                                   CreateGroupCursorDetails.TYPE_LATEST,
+                                                                   commit_on_get=True)
+    response = sc.create_group_cursor(sid, cursor_details)
+    return response.data.value
+
+
+def simple_message_loop(client, stream_id, initial_cursor):
+    cursor = initial_cursor
+    
+    while True:
+        get_response = client.get_messages(stream_id, cursor, limit=100)
+        # No messages to process. return.
+        if not get_response.data:
+            return
+        # Process the messages 
+        print(" Read {} messages".format(len(get_response.data)))
+        #print(get_response.data)
+
+        for message in get_response.data:
             
-            base64_string = item['value']
+            #print(b64decode(message.value).decode('utf-8'))
+            base64_string = ""
+            base64_string = message.value
             base64_bytes = base64_string.encode("utf-8")
             
             sample_string_bytes = base64.b64decode(base64_bytes)
@@ -78,6 +110,8 @@ def handler(ctx, data: io.BytesIO = None):
             inputdata = []
             reader = sample_string.split(',')
             inputdata = [ reader[0].replace('\'', '') ,reader[1].replace('\'', '') , float(reader[2]), float(reader[3]), float(reader[4]), float(reader[5]), float(reader[6]), float(reader[7]), float(reader[8]), float(reader[9]), float(reader[10]), float(reader[11]), int(reader[12])]
+
+            
 
             print(inputdata)
           
@@ -157,13 +191,8 @@ def handler(ctx, data: io.BytesIO = None):
             r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
             historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
 
-    except (Exception, ValueError) as e:
-        logger.error(str(e))
-        raise
-def base64_decode(encoded):
-    print(type(encoded))
-    base64_bytes = encoded.encode('utf-8')
-    message_bytes = base64.b64decode(base64_bytes)
-    return message_bytes.decode('utf-8')
-
-
+        # get_messages is a throttled method; clients should retrieve sufficiently large message
+        # batches, as to avoid too many http requests.
+        time.sleep(2)
+        # use the next-cursor for iteration
+        cursor = get_response.headers["opc-next-cursor"]
