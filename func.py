@@ -125,7 +125,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
             for ix,row in testdata[15:].iterrows():
                 temp=pd.DataFrame([row])
                 temp=temp.melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
-                temp['lookup']=t['timestamp'].apply(lambda x:x[:19])
+                temp['lookup']=temp['timestamp'].apply(lambda x:x[:19])
                 temp=temp.merge(anomalypoint[['lookup','sensor','expectedvalue']],on=['lookup','sensor'],how='left')
                 temp['expectedvalue']=temp.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
                 temp['value_s']=np.round(temp['value'],4).map(str)
