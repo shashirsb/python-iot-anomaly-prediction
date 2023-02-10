@@ -124,10 +124,10 @@ def simple_message_loop(client, stream_id, initial_cursor):
                 'lookup']
             for ix,row in testdata[15:].iterrows():
                 temp=pd.DataFrame([row])
-                temp=t.melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
+                temp=temp.melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
                 temp['lookup']=t['timestamp'].apply(lambda x:x[:19])
-                temp1=t.merge(anomalypoint[['lookup','sensor','expectedvalue']],on=['lookup','sensor'],how='left')
-                temp1['expectedvalue']=temp1.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
+                temp=temp.merge(anomalypoint[['lookup','sensor','expectedvalue']],on=['lookup','sensor'],how='left')
+                temp['expectedvalue']=temp.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
                 temp['value_s']=np.round(temp['value'],4).map(str)
                 temp['expectedvalue_s']=np.round(temp['expectedvalue'],4).map(str)
                 temp['insertscript']=temp.apply(lambda x:"'"+x['lookup']+"','"+x['sensor']+"',"+x['value_s']+","+x['expectedvalue_s'],axis=1)
