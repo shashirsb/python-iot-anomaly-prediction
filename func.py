@@ -123,9 +123,9 @@ def simple_message_loop(client, stream_id, initial_cursor):
                 'actualvalue', 'expectedvalue','anomalies.anomalyScore', 'score',
                 'lookup']
             for ix,row in testdata[15:].iterrows():
-                t=pd.DataFrame([row])
-                t=t.melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
-                t['lookup']=t['timestamp'].apply(lambda x:x[:19])
+                temp=pd.DataFrame([row])
+                temp=t.melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
+                temp['lookup']=t['timestamp'].apply(lambda x:x[:19])
                 temp1=t.merge(anomalypoint[['lookup','sensor','expectedvalue']],on=['lookup','sensor'],how='left')
                 temp1['expectedvalue']=temp1.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
                 temp['value_s']=np.round(temp['value'],4).map(str)
