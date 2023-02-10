@@ -133,7 +133,7 @@ def simple_message_loop(client, stream_id, initial_cursor):
                 temp['insertscript']=temp.apply(lambda x:"'"+x['lookup']+"','"+x['sensor']+"',"+x['value_s']+","+x['expectedvalue_s'],axis=1)
                 temp['value1']=temp['value']
                 temp['jsoncontent']=temp[['lookup','sensor','value1','expectedvalue']].apply(lambda x:x.to_json(),axis=1)
-                dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/api/ssung'
+                dbsqlurl = 'https://cors-anywhere.herokuapp.com/https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/api/ssung'
                 headers = {"Content-Type": "application/json"}
                 for ix,row in temp.iterrows():
                     requests.post(url=dbsqlurl,data=row['jsoncontent'])
