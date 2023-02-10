@@ -115,29 +115,9 @@ def simple_message_loop(client, stream_id, initial_cursor):
 
             print(inputdata)
 
-
-            testdata=pd.read_csv("oci://"+bucket_name+"/anomaly_test_data.csv", storage_options = {"config": configfile})
-            anomalypoint=pd.read_csv("oci://"+bucket_name+"/anomalies.csv", storage_options = {"config": configfile})
-            anomalypoint['lookup']=anomalypoint['timestamp'].apply(lambda x:x[:19])
-            anomalypoint.columns=['timestamp', 'sensor',
-                'actualvalue', 'expectedvalue','anomalies.anomalyScore', 'score',
-                'lookup']
-            for ix,row in testdata[15:].iterrows():
-                temp=pd.DataFrame([row])
-                temp=temp.melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
-                temp['lookup']=temp['timestamp'].apply(lambda x:x[:19])
-                temp=temp.merge(anomalypoint[['lookup','sensor','expectedvalue']],on=['lookup','sensor'],how='left')
-                temp['expectedvalue']=temp.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
-                temp['value_s']=np.round(temp['value'],4).map(str)
-                temp['expectedvalue_s']=np.round(temp['expectedvalue'],4).map(str)
-                temp['insertscript']=temp.apply(lambda x:"'"+x['lookup']+"','"+x['sensor']+"',"+x['value_s']+","+x['expectedvalue_s'],axis=1)
-                temp['value1']=temp['value']
-                temp['jsoncontent']=temp[['lookup','sensor','value1','expectedvalue']].apply(lambda x:x.to_json(),axis=1)
-                dbsqlurl = 'https://cors-anywhere.herokuapp.com/https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/api/ssung'
-                headers = {"Content-Type": "application/json"}
-                for ix,row in temp.iterrows():
-                    requests.post(url=dbsqlurl,data=row['jsoncontent'])
-                time.sleep(1)
+            exetime=pd.read_csv("oci://"+bucket_name+"/exetime.csv", storage_options = {"config": configfile})
+            pd.concat([exetime,pd.DataFrame([inputdata[1]],columns=['input_time'])]).to_csv('oci://'+bucket_name+'/exetime.csv',index=False,storage_options = {"config": configfile})
+            
           
           
         # get_messages is a throttled method; clients should retrieve sufficiently large message
