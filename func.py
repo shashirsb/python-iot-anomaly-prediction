@@ -114,18 +114,36 @@ def simple_message_loop(client, stream_id, initial_cursor):
             
 
             print(inputdata)
-          
-          
-     
-                        #read historical data
-            # t=pd.DataFrame(data=[inputdata],columns=signalNames)
-            # t.to_csv('oci://'+bucket_name+'/file_'+inputdata[1]+'.csv',index=False,storage_options = {"config": configfile})
-            # historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
-            # historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
-            
-            exetime=pd.read_csv("oci://"+bucket_name+"/exetime.csv", storage_options = {"config": configfile})
-            pd.concat([exetime,pd.DataFrame([inputdata[1]],columns=['input_time'])]).to_csv('oci://'+bucket_name+'/exetime.csv',index=False,storage_options = {"config": configfile})
 
+
+            testdata=pd.read_csv("oci://"+bucket_name+"/anomaly_test_data.csv", storage_options = {"config": configfile})
+            anomalypoint=pd.read_csv("oci://"+bucket_name+"/anomalies.csv", storage_options = {"config": configfile})
+            anomalypoint['lookup']=anomalypoint['timestamp'].apply(lambda x:x[:19])
+            anomalypoint.columns=['timestamp', 'sensor',
+                'actualvalue', 'expectedvalue','anomalies.anomalyScore', 'score',
+                'lookup']
+            for ix,row in testdata[15:].iterrows():
+                t=pd.DataFrame([row])
+                t=t.melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
+                t['lookup']=t['timestamp'].apply(lambda x:x[:19])
+                temp1=t.merge(anomalypoint[['lookup','sensor','expectedvalue']],on=['lookup','sensor'],how='left')
+                temp1['expectedvalue']=temp1.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
+                temp['value_s']=np.round(temp['value'],4).map(str)
+                temp['expectedvalue_s']=np.round(temp['expectedvalue'],4).map(str)
+                temp['insertscript']=temp.apply(lambda x:"'"+x['lookup']+"','"+x['sensor']+"',"+x['value_s']+","+x['expectedvalue_s'],axis=1)
+                ins='insert all into PPANOMALYDS7 values '
+                for ix,row in temp.iterrows():
+                    ins=ins+'('+row['insertscript']+') into PPANOMALYDS7 values'
+                ins=ins[:-24]+' select 1 from dual'
+                dbschema='admin'
+                dbpwd='Autonomous14#'
+                dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/_/sql'
+                headers = {"Content-Type": "application/sql"}
+                auth=(dbschema, dbpwd)
+                r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
+                time.sleep(1)
+          
+          
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
         time.sleep(1)
