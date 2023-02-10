@@ -118,14 +118,78 @@ def simple_message_loop(client, stream_id, initial_cursor):
           
      
                         #read historical data
-            # t=pd.DataFrame(data=[inputdata],columns=signalNames)
-            # t.to_csv('oci://'+bucket_name+'/file_'+inputdata[1]+'.csv',index=False,storage_options = {"config": configfile})
-            # historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
-            # historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
+            t=pd.DataFrame(data=[inputdata],columns=signalNames)
+            t.to_csv('oci://'+bucket_name+'/file_'+inputdata[1]+'.csv',index=False,storage_options = {"config": configfile})
+            historicaldata = pd.read_csv("oci://"+bucket_name+"/historicaldata.csv", storage_options = {"config": configfile})
+            historicaldata=pd.concat([historicaldata,pd.DataFrame(data=[inputdata],columns=signalNames)])
             
-            exetime=pd.read_csv("oci://"+bucket_name+"/exetime.csv", storage_options = {"config": configfile})
-            pd.concat([exetime,pd.DataFrame([inputdata[1]],columns=['input_time'])]).to_csv('oci://'+bucket_name+'/exetime.csv',index=False,storage_options = {"config": configfile})
+            
+            
+            # retain last T to T-21 rows
+            svcpayload=[]
+            payload=historicaldata[-21:]
 
+    
+           
+            for index,row in payload.iterrows():
+                timestamp = datetime.strptime(row['timestamp'], "%Y-%m-%dT%H:%M:%SZ")
+                t=timestamp
+                values = list(row[col])
+                dItem = DataItem(timestamp=timestamp, values=values)
+                svcpayload.append(dItem)
+
+            payload.to_csv('oci://'+bucket_name+'/'+str(t)+'.csv',index=False,storage_options = {"config": configfile})
+            inline = InlineDetectAnomaliesRequest( model_id=modelid,  request_type="INLINE", signal_names=col, data=svcpayload)
+            detect_res = ad_client.detect_anomalies(detect_anomalies_details=inline)
+
+            ins=''
+            temp1=pd.DataFrame()
+            li_anomalies_dbentry=[]
+            temp=historicaldata[-1:][["timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]].melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
+            temp['timestamp']=temp['timestamp'].apply(lambda x:x[:19])
+            print(t)
+            if len(detect_res.data.detection_results)>0:
+                for rec in detect_res.data.detection_results:
+                    if rec.timestamp.replace(tzinfo=None)==t:
+                        print('Anomaly in Present T')
+                        if historicaldata[-10:]['anomaly'].sum() > 0:
+                            print('red flag')
+                        else:
+                            print('one time off')           
+                        for point in rec.anomalies:
+                            li_anomalies_dbentry.append([point.signal_name,point.estimated_value])
+                        temp1=pd.DataFrame(li_anomalies_dbentry,columns=['sensor','expectedvalue'])
+                        historicaldata.iloc[-1,historicaldata.columns.get_loc('anomaly')]=1
+
+                    else:
+                        print('Anomalies in Present T minus')
+            else:
+                print('0 anomalies')
+
+            temp=historicaldata[-1:][["timestamp","temperature_1", "temperature_2", "temperature_3", "temperature_4", "temperature_5", "pressure_1", "pressure_2", "pressure_3", "pressure_4", "pressure_5"]].melt(id_vars=["timestamp"], var_name="sensor", value_name="value")
+            temp['timestamp']=temp['timestamp'].apply(lambda x:x[:19])
+            if len(temp1)>0:
+                print('temp1')
+                temp=temp.merge(temp1,on='sensor',how='left')
+                temp['expectedvalue']=temp.apply(lambda x:x['value'] if pd.isnull(x['expectedvalue']) else x['expectedvalue'],axis=1)
+            else:
+                temp['expectedvalue']=temp['value']
+            temp.rename(columns={'timestamp':'lookup'},inplace=True)
+            temp['value_s']=np.round(temp['value'],4).map(str)
+            temp['expectedvalue_s']=np.round(temp['expectedvalue'],4).map(str)
+            temp['insertscript']=temp.apply(lambda x:"'"+x['lookup']+"','"+x['sensor']+"',"+x['value_s']+","+x['expectedvalue_s'],axis=1)
+            ins='insert all into PPANOMALYDS5 values '
+            for ix,row in temp.iterrows():
+                ins=ins+'('+row['insertscript']+') into PPANOMALYDS5 values'
+            ins=ins[:-24]+' select 1 from dual'
+            dbschema='admin'
+            dbpwd='Autonomous14#'
+            dbsqlurl = 'https://wwjfteltaqsqcy9-adsadw.adb.us-ashburn-1.oraclecloudapps.com/ords/admin/_/sql'
+            headers = {"Content-Type": "application/sql"}
+            auth=(dbschema, dbpwd)
+            # r = requests.post(dbsqlurl, auth=auth, headers=headers, data=ins)
+            historicaldata.to_csv('oci://'+bucket_name+'/historicaldata.csv',index=False,storage_options = {"config": configfile})
+            historicaldata = ""
         # get_messages is a throttled method; clients should retrieve sufficiently large message
         # batches, as to avoid too many http requests.
         time.sleep(1)
