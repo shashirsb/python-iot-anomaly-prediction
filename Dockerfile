@@ -3,8 +3,8 @@ WORKDIR /function
 ADD requirements.txt /function/
 ADD anomalydetection_backup.py /function/
 
-                        RUN pip3 install --target /python/  --no-cache --no-cache-dir -r requirements.txt &&\
-                            rm -fr ~/.cache/pip /tmp* requirements.txt func.yaml Dockerfile .venv &&\
+RUN pip3 install --target /python/  --no-cache --no-cache-dir -r requirements.txt && \
+                            rm -fr ~/.cache/pip /tmp* requirements.txt func.yaml Dockerfile .venv && \
                             chmod -R o+r /python
 ADD . /function/
 RUN rm -fr /function/.pip_cache
