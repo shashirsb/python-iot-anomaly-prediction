@@ -10,3 +10,4 @@ fsspec
 requests
 jsonify
 Flask
+flask-cors
