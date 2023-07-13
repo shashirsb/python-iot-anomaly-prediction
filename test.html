@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dynamic HTML Generation</title>
+    <script>
+        function generateHTML() {
+            // JSON data
+            var jsonData = {
+                "key_value": {
+                    "VendorNameLogo": "Khyen Chyen",
+                    "VendorAddressRecipient": "ZNK Foods & Beverages Pvt. Ltd.",
+                    "VendorName": "ZNK Foods & Beverages Pvt. Ltd.",
+                    "VendorAddress": "G-19, DLF Cross Point DLF Phase 4, Gurgaon",
+                    "InvoiceDate": "17/04/2015",
+                    "InvoiceId": "109",
+                    "SubTotal": "Rs1,675.00",
+                    "TotalVAT": "Rs213.36",
+                    "TotalTax": "Rs82.75",
+                    "InvoiceTotal": "Rs1,971.11",
+                    "VendorTaxId": "5041504175295"
+                },
+                "line_items": [
+                    "Tabakh Maaz (Only Me) 1 200.00 200.00",
+                    "Haakh (Hungry) 1 300.00 300.00",
+                    "Al-Yakhni (Only Me) 1 225.00 225.00",
+                    "Batta (Hungry) 1 200.00 200.00",
+                    "Saffron Kehwa 1 100.00 100.00",
+                    "Lahabdaar Kebab (Only 1 250.00 250.00",
+                    "Mineral Water I50.00 50.00",
+                    "Rogan Josh Mutton (On 1 250.00 250.00",
+                    "Doon Chutney 1 100.00 100.00"
+                ],
+                "entity": "found",
+                "entity_value": "G-19, DLF Cross Point",
+                "gst": "AAACZ8044NSD002"
+            };
+
+            // Create HTML tags dynamically
+            var html = '<div style=padding-left:15px;> ';
+
+            // Iterate over key_value object properties
+            for (var key in jsonData.key_value) {
+                if (jsonData.key_value.hasOwnProperty(key)) {
+
+                   
+                    html += '<span><strong>' + key + ':</strong> </br>' + jsonData.key_value[key] + '</span>';
+                    html += '</br>';
+                }
+            }
+
+            // Create line_items list
+            html += '<h1>Line Items:</h1>';
+            html += '<ul>';
+            for (var i = 0; i < jsonData.line_items.length; i++) {
+                html += '<li>' + jsonData.line_items[i] + '</li>';
+            }
+            html += '</ul>';
+
+            // Create entity details
+            html += '<h1>Entity Details:</h1>';
+            html += '<ul>';
+            html += '<li><strong>Entity:</strong> ' + jsonData.entity + '</li>';
+            html += '<li><strong>Entity Value:</strong> ' + jsonData.entity_value + '</li>';
+            html += '<li><strong>GST:</strong> ' + jsonData.gst + '</li>';
+            html += '</ul></div>';
+
+            // Output the generated HTML to the 'content' element
+            document.getElementById('content').innerHTML = html;
+        }
+    </script>
+</head>
+
+<body onload="generateHTML()">
+    <div id="content"></div>
+</body>
+
+</html>

@@ -16,4 +16,4 @@ RUN chmod -R 777 /function
 RUN ls -ltr /function
 ENV PYTHONPATH=/function:/python
 # ENTRYPOINT ["/python/bin/fdk", "/function/anomalydetection.py"]
-ENTRYPOINT ["/python/bin/fdk", "/function/func.py", "handler"]
+ENTRYPOINT ["/python/bin/fdk", "/function/doc_understanding.py", "handler"]

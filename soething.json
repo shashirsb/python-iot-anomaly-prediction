@@ -1,0 +1,743 @@
+{
+    "documentMetadata": {
+      "pageCount": 1,
+      "mimeType": "image/jpeg"
+    },
+    "pages": [
+      {
+        "pageNumber": 1,
+        "dimensions": {
+          "width": 2480,
+          "height": 3504,
+          "unit": "PIXEL"
+        },
+        "detectedDocumentTypes": null,
+        "detectedLanguages": null,
+      
+        "lines": [
+          {
+            "text": "ORIGINAL FOR RECIPIENT",
+            "confidence": 0.9619503,
+            "boundingPolygon": {
+              "normalizedVertices": [
+                {
+                  "x": 0.06532258064516129,
+                  "y": 0.0136986301369863
+                },
+                {
+                  "x": 0.2120967741935484,
+                  "y": 0.0136986301369863
+                },
+                {
+                  "x": 0.2120967741935484,
+                  "y": 0.020833333333333332
+                },
+                {
+                  "x": 0.06532258064516129,
+                  "y": 0.020833333333333332
+                }
+              ]
+            },
+            "wordIndexes": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "text": "Registered Office",
+            "confidence": 0.9824342,
+            "boundingPolygon": {
+              "normalizedVertices": [
+                {
+                  "x": 0.6383064516129032,
+                  "y": 0.01141552511415525
+                },
+                {
+                  "x": 0.7254032258064517,
+                  "y": 0.01141552511415525
+                },
+                {
+                  "x": 0.7254032258064517,
+                  "y": 0.020833333333333332
+                },
+                {
+                  "x": 0.6383064516129032,
+                  "y": 0.020833333333333332
+                }
+              ]
+            },
+            "wordIndexes": [
+              3,
+              4
+            ]
+          }
+        ],
+        "tables": null,
+        "documentFields": [
+          {
+            "fieldType": "KEY_VALUE",
+            "fieldLabel": {
+              "name": "VendorAddressRecipient",
+              "confidence": 0.99962926
+            },
+            "fieldName": null,
+            "fieldValue": {
+              "valueType": "STRING",
+              "text": "Unicorn Infosolutions Pvt. Ltd.",
+              "confidence": null,
+              "boundingPolygon": {
+                "normalizedVertices": [
+                  {
+                    "x": 0.6391129032258065,
+                    "y": 0.026255707762557076
+                  },
+                  {
+                    "x": 0.8193548387096774,
+                    "y": 0.026255707762557076
+                  },
+                  {
+                    "x": 0.8193548387096774,
+                    "y": 0.033961187214611874
+                  },
+                  {
+                    "x": 0.6391129032258065,
+                    "y": 0.033961187214611874
+                  }
+                ]
+              },
+              "wordIndexes": [
+                9,
+                10,
+                11,
+                12
+              ],
+              "value": "Unicorn Infosolutions Pvt. Ltd."
+            }
+          },
+          {
+            "fieldType": "KEY_VALUE",
+            "fieldLabel": {
+              "name": "VendorName",
+              "confidence": 0.99962926
+            },
+            "fieldName": null,
+            "fieldValue": {
+              "valueType": "STRING",
+              "text": "Unicorn Infosolutions Pvt. Ltd.",
+              "confidence": null,
+              "boundingPolygon": {
+                "normalizedVertices": [
+                  {
+                    "x": 0.6391129032258065,
+                    "y": 0.026255707762557076
+                  },
+                  {
+                    "x": 0.8193548387096774,
+                    "y": 0.026255707762557076
+                  },
+                  {
+                    "x": 0.8193548387096774,
+                    "y": 0.033961187214611874
+                  },
+                  {
+                    "x": 0.6391129032258065,
+                    "y": 0.033961187214611874
+                  }
+                ]
+              },
+              "wordIndexes": [
+                9,
+                10,
+                11,
+                12
+              ],
+              "value": "Unicorn Infosolutions Pvt. Ltd."
+            }
+          },
+          {
+            "fieldType": "LINE_ITEM_GROUP",
+            "fieldLabel": {
+              "name": "Items",
+              "confidence": null
+            },
+            "fieldName": null,
+            "fieldValue": {
+              "valueType": "ARRAY",
+              "text": null,
+              "confidence": null,
+              "boundingPolygon": null,
+              "wordIndexes": null,
+              "items": [
+                {
+                  "fieldType": "LINE_ITEM",
+                  "fieldLabel": null,
+                  "fieldName": null,
+                  "fieldValue": {
+                    "valueType": "ARRAY",
+                    "text": "85171300.0 iPhone 14 256GB (PRODUCT)RED 353340194683267 89900.00 1 11519.38 75516.00",
+                    "confidence": null,
+                    "boundingPolygon": null,
+                    "wordIndexes": null,
+                    "items": [
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Name",
+                          "confidence": 0.9374632
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "STRING",
+                          "text": "85171300.0",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.09959677419354838,
+                                "y": 0.3167808219178082
+                              },
+                              {
+                                "x": 0.1504032258064516,
+                                "y": 0.3167808219178082
+                              },
+                              {
+                                "x": 0.1504032258064516,
+                                "y": 0.3242009132420091
+                              },
+                              {
+                                "x": 0.09959677419354838,
+                                "y": 0.3242009132420091
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            111
+                          ],
+                          "value": "85171300.0"
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "ProductCode",
+                          "confidence": 0.9374632
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "STRING",
+                          "text": "85171300.0",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.09959677419354838,
+                                "y": 0.3167808219178082
+                              },
+                              {
+                                "x": 0.1504032258064516,
+                                "y": 0.3167808219178082
+                              },
+                              {
+                                "x": 0.1504032258064516,
+                                "y": 0.3242009132420091
+                              },
+                              {
+                                "x": 0.09959677419354838,
+                                "y": 0.3242009132420091
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            111
+                          ],
+                          "value": "85171300.0"
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Description",
+                          "confidence": 0.96463335
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "STRING",
+                          "text": "iPhone 14 256GB (PRODUCT)RED 353340194683267",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.2799894366850259,
+                                "y": 0.3157992364865904
+                              },
+                              {
+                                "x": 0.4568548387096774,
+                                "y": 0.3147870068136416
+                              },
+                              {
+                                "x": 0.4571073375085225,
+                                "y": 0.33688731370604663
+                              },
+                              {
+                                "x": 0.28024193548387094,
+                                "y": 0.3378995433789954
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            113,
+                            114,
+                            115,
+                            116,
+                            123
+                          ],
+                          "value": "iPhone 14 256GB (PRODUCT)RED 353340194683267"
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "UnitPrice",
+                          "confidence": 0.92609847
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "89900.00",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.5459677419354839,
+                                "y": 0.3136415525114155
+                              },
+                              {
+                                "x": 0.5935483870967742,
+                                "y": 0.3136415525114155
+                              },
+                              {
+                                "x": 0.5935483870967742,
+                                "y": 0.322203196347032
+                              },
+                              {
+                                "x": 0.5459677419354839,
+                                "y": 0.322203196347032
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            117
+                          ],
+                          "value": 89900
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Quantity",
+                          "confidence": 0.9971987
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "1",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.6266129032258064,
+                                "y": 0.3133561643835616
+                              },
+                              {
+                                "x": 0.6342741935483871,
+                                "y": 0.3133561643835616
+                              },
+                              {
+                                "x": 0.6342741935483871,
+                                "y": 0.3219178082191781
+                              },
+                              {
+                                "x": 0.6266129032258064,
+                                "y": 0.3219178082191781
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            118
+                          ],
+                          "value": 1
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Tax",
+                          "confidence": 0.9749057
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "11519.38",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.8258064516129032,
+                                "y": 0.3127853881278539
+                              },
+                              {
+                                "x": 0.8709677419354839,
+                                "y": 0.3127853881278539
+                              },
+                              {
+                                "x": 0.8709677419354839,
+                                "y": 0.3202054794520548
+                              },
+                              {
+                                "x": 0.8258064516129032,
+                                "y": 0.3202054794520548
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            121
+                          ],
+                          "value": 11519.38
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Amount",
+                          "confidence": 0.99759895
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "75516.00",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.9246628368382634,
+                                "y": 0.31135729773449383
+                              },
+                              {
+                                "x": 0.9737903225806451,
+                                "y": 0.3105022831050228
+                              },
+                              {
+                                "x": 0.9741274857423816,
+                                "y": 0.32020662920614534
+                              },
+                              {
+                                "x": 0.925,
+                                "y": 0.3210616438356164
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            122
+                          ],
+                          "value": 75516
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "fieldType": "LINE_ITEM",
+                  "fieldLabel": null,
+                  "fieldName": null,
+                  "fieldValue": {
+                    "valueType": "ARRAY",
+                    "text": "39269099.0 Skech Crystal Clear Cover for iPhone 14 1899.00 1 259.35 1700.17",
+                    "confidence": null,
+                    "boundingPolygon": null,
+                    "wordIndexes": null,
+                    "items": [
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Name",
+                          "confidence": 0.93969625
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "STRING",
+                          "text": "39269099.0",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.10040322580645161,
+                                "y": 0.3453196347031963
+                              },
+                              {
+                                "x": 0.15080645161290324,
+                                "y": 0.3453196347031963
+                              },
+                              {
+                                "x": 0.15080645161290324,
+                                "y": 0.3527397260273973
+                              },
+                              {
+                                "x": 0.10040322580645161,
+                                "y": 0.3527397260273973
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            125
+                          ],
+                          "value": "39269099.0"
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "ProductCode",
+                          "confidence": 0.93969625
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "STRING",
+                          "text": "39269099.0",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.10040322580645161,
+                                "y": 0.3453196347031963
+                              },
+                              {
+                                "x": 0.15080645161290324,
+                                "y": 0.3453196347031963
+                              },
+                              {
+                                "x": 0.15080645161290324,
+                                "y": 0.3527397260273973
+                              },
+                              {
+                                "x": 0.10040322580645161,
+                                "y": 0.3527397260273973
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            125
+                          ],
+                          "value": "39269099.0"
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Description",
+                          "confidence": 0.9996935
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "STRING",
+                          "text": "Skech Crystal Clear Cover for iPhone 14",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.28011726740757,
+                                "y": 0.343732658763048
+                              },
+                              {
+                                "x": 0.42701612903225805,
+                                "y": 0.34332348549202696
+                              },
+                              {
+                                "x": 0.4271407971085589,
+                                "y": 0.36574379476550856
+                              },
+                              {
+                                "x": 0.28024193548387094,
+                                "y": 0.3661529680365297
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            127,
+                            128,
+                            129,
+                            130,
+                            131,
+                            138,
+                            139
+                          ],
+                          "value": "Skech Crystal Clear Cover for iPhone 14"
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "UnitPrice",
+                          "confidence": 0.99694616
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "1899.00",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.5528225806451613,
+                                "y": 0.341324200913242
+                              },
+                              {
+                                "x": 0.594758064516129,
+                                "y": 0.341324200913242
+                              },
+                              {
+                                "x": 0.594758064516129,
+                                "y": 0.3513127853881279
+                              },
+                              {
+                                "x": 0.5528225806451613,
+                                "y": 0.3513127853881279
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            132
+                          ],
+                          "value": 1899
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Quantity",
+                          "confidence": 0.99764806
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "1",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.6270161290322581,
+                                "y": 0.3418949771689498
+                              },
+                              {
+                                "x": 0.6346774193548387,
+                                "y": 0.3418949771689498
+                              },
+                              {
+                                "x": 0.6346774193548387,
+                                "y": 0.3504566210045662
+                              },
+                              {
+                                "x": 0.6270161290322581,
+                                "y": 0.3504566210045662
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            133
+                          ],
+                          "value": 1
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Tax",
+                          "confidence": 0.98996747
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "259.35",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.8358870967741936,
+                                "y": 0.3410388127853881
+                              },
+                              {
+                                "x": 0.8721774193548387,
+                                "y": 0.3410388127853881
+                              },
+                              {
+                                "x": 0.8721774193548387,
+                                "y": 0.3496004566210046
+                              },
+                              {
+                                "x": 0.8358870967741936,
+                                "y": 0.3496004566210046
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            136
+                          ],
+                          "value": 259.35
+                        }
+                      },
+                      {
+                        "fieldType": "LINE_ITEM_FIELD",
+                        "fieldLabel": {
+                          "name": "Amount",
+                          "confidence": 0.91417074
+                        },
+                        "fieldName": null,
+                        "fieldValue": {
+                          "valueType": "NUMBER",
+                          "text": "1700.17",
+                          "confidence": null,
+                          "boundingPolygon": {
+                            "normalizedVertices": [
+                              {
+                                "x": 0.9318625866050809,
+                                "y": 0.3398971020911766
+                              },
+                              {
+                                "x": 0.9737903225806451,
+                                "y": 0.339041095890411
+                              },
+                              {
+                                "x": 0.9741858004916933,
+                                "y": 0.34874445042023894
+                              },
+                              {
+                                "x": 0.932258064516129,
+                                "y": 0.3496004566210046
+                              }
+                            ]
+                          },
+                          "wordIndexes": [
+                            137
+                          ],
+                          "value": 1700.17
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "detectedDocumentTypes": null,
+    "detectedLanguages": null,
+    "documentClassificationModelVersion": null,
+    "languageClassificationModelVersion": null,
+    "textExtractionModelVersion": "1.13.39",
+    "keyValueExtractionModelVersion": "1.19.48",
+    "tableExtractionModelVersion": null,
+    "errors": null,
+    "searchablePdf": null
+  }

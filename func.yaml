@@ -1,8 +1,8 @@
 schema_version: 20180708
-name: python-iot-anomaly-prediction
-version: 0.1.2
+name: python-doc-understanding
+version: 0.0.1
 runtime: python
 build_image: fnproject/python:3.9-dev
 run_image: fnproject/python:3.9
-entrypoint: /python/bin/fdk /function/func.py handler 
+entrypoint: /python/bin/fdk /function/doc_understanding.py handler 
 memory: 256
