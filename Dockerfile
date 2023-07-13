@@ -20,5 +20,6 @@ COPY --from=build-stage /function /function
 RUN chmod -R 777 /function
 RUN ls -ltr /function
 ENV PYTHONPATH=/function:/python
+EXPOSE 5000
 # ENTRYPOINT ["/python/bin/fdk", "/function/anomalydetection.py"]
 ENTRYPOINT ["/python/bin/fdk", "/function/doc_understanding.py", "handler"]
