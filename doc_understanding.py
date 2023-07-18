@@ -166,13 +166,21 @@ def extract_key_value(file_base64):
 
 
 # Add a route for the POST request with file upload
-@app.route('/extract', methods=['POST'])
+@app.route('/extract', methods=['POST', 'OPTIONS', 'GET'])
 def extract():
     file = request.files['file']
     if file:
         file_content = file.read()
         file_base64 = base64.b64encode(file_content).decode('utf-8')
-        return extract_key_value(file_base64)
+        
+        # Create the response object
+        response = extract_key_value(file_base64)
+        # Add CORS headers
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add('Access-Control-Allow-Headers', "*")
+        response.headers.add('Access-Control-Allow-Methods', "*")
+
+        return response
     else:
         return 'No file uploaded.'
 
