@@ -159,7 +159,7 @@ def extract_key_value(file_base64):
     json_output = json.dumps(extracted_info, indent=4)
 
     # Printing the JSON string
-    print(json_output)
+    # print(json_output)
 
     # return str(get_object_response.data.content.decode())
     return str(json_output)
@@ -180,7 +180,9 @@ def extract():
         # Create the response object
         response = extract_key_value(file_base64)
 
-        return _corsify_actual_response(jsonify(response.to_dict()))
+        print(response)
+
+        return _corsify_actual_response(jsonify(response))
     else:
         raise RuntimeError("Weird - don't know how to handle method {}".format(request.method))
     
