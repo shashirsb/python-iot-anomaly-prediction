@@ -181,7 +181,7 @@ def extract():
         # Create the response object
         response = extract_key_value(file_base64)
 
-        # print(response)
+        print(response)
 
         return _corsify_actual_response(jsonify(response))
     else:
