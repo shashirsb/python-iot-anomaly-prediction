@@ -38,7 +38,7 @@ import numpy as np
 import csv
 import requests
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -165,25 +165,40 @@ def extract_key_value(file_base64):
     return str(json_output)
 
 
+
 # Add a route for the POST request with file upload
 @app.route('/extract', methods=['POST', 'OPTIONS', 'GET'])
 def extract():
-    file = request.files['file']
-    if file:
-        file_content = file.read()
-        file_base64 = base64.b64encode(file_content).decode('utf-8')
+    if request.method == "OPTIONS": # CORS preflight
+        return _build_cors_preflight_response()
+    elif request.method == "POST": # The actual request following the preflight
+        file = request.files['file']
+        if file:
+            file_content = file.read()
+            file_base64 = base64.b64encode(file_content).decode('utf-8')
         
         # Create the response object
         response = extract_key_value(file_base64)
-        # Add CORS headers
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        response.headers.add('Access-Control-Allow-Headers', "*")
-        response.headers.add('Access-Control-Allow-Methods', "*")
 
-        return response
+        return _corsify_actual_response(jsonify(response.to_dict()))
     else:
-        return 'No file uploaded.'
+        raise RuntimeError("Weird - don't know how to handle method {}".format(request.method))
+    
+    
+     
 
+
+
+def _build_cors_preflight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
+
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 if __name__ == '__main__':
     app.run(port=5000)
