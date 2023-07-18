@@ -171,8 +171,10 @@ def extract_key_value(file_base64):
 @app.route('/extract', methods=['POST', 'OPTIONS', 'GET'])
 def extract():
     if request.method == "OPTIONS": # CORS preflight
-        return _build_cors_preflight_response()
+        print('wihtin OPTIONS')
+        return _build_cors_preflight_response()        
     elif request.method == "POST": # The actual request following the preflight
+        print('wihtin POST')
         file = request.files['file']
         if file:
             file_content = file.read()
@@ -180,8 +182,9 @@ def extract():
         
         # Create the response object
         response = extract_key_value(file_base64)
-
+        print('----------------1')
         print(response)
+        print('----------------2')
 
         return _corsify_actual_response(jsonify(response))
     else:
