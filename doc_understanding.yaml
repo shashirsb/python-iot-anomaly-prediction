@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doc-understanding-deployment
+spec:
+  selector:
+    matchLabels:
+      app: doc-understanding
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: doc-understanding
+    spec:
+      containers:
+      - name: doc-understanding
+        image: docker.io/shashioracle/doc-understanding:0.0.13
+        ports:
+        - containerPort: 5000

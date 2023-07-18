@@ -1,25 +1,22 @@
-FROM fnproject/python:3.9-dev as build-stage
-WORKDIR /function
-ADD requirements.txt /function/
-ADD doc_understanding.py /function/
+# Use the official Python base image
+FROM python:3.9
 
-# RUN pip3 install --target /python/  --no-cache --no-cache-dir -r requirements.txt && \
-#                             rm -fr ~/.cache/pip /tmp* requirements.txt func.yaml Dockerfile .venv && \
-#                             chmod -R o+r /python
+# Set the working directory inside the container
+WORKDIR /app
 
-RUN pip3 install --target /python/ -r requirements.txt && \
-                            rm -fr ~/.cache/pip /tmp* requirements.txt func.yaml Dockerfile .venv && \
-                            chmod -R o+r /python
+# Copy the requirements file and install the dependencies
+COPY requirements.txt .
+RUN pip install  -r requirements.txt
 
-ADD . /function/
-RUN rm -fr /function/.pip_cache
-FROM fnproject/python:3.9
-WORKDIR /function
-COPY --from=build-stage /python /python
-COPY --from=build-stage /function /function
-RUN chmod -R 777 /function
-RUN ls -ltr /function
-ENV PYTHONPATH=/function:/python
+# Copy the Flask application code into the container
+COPY . .
+
+# Expose the port your Flask application will be listening on
 EXPOSE 5000
-# ENTRYPOINT ["/python/bin/fdk", "/function/anomalydetection.py"]
-ENTRYPOINT ["/python/bin/fdk", "/function/doc_understanding.py", "handler"]
+
+# Set the environment variable for Flask
+ENV FLASK_APP=doc_understanding.py
+
+# Run the Flask application
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+
