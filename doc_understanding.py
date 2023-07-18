@@ -162,7 +162,7 @@ def extract_key_value(file_base64):
     print(json_output)
 
     # return str(get_object_response.data.content.decode())
-    return str(json_output)
+    return json_output
 
 
 # Add a route for the POST request with file upload
