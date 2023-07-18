@@ -92,8 +92,9 @@ def extract_key_value(file_base64):
         processor_config=oci.ai_document.models.GeneralProcessorConfig(features=[key_value_extraction_feature],
                                                                        document_type="INVOICE"))
 
-    print("Calling create_processor with create_processor_job_details_key_value_extraction:",
-          create_processor_job_details_key_value_extraction)
+    # print("Calling create_processor with create_processor_job_details_key_value_extraction:",
+    #       create_processor_job_details_key_value_extraction)
+    print("Calling create_processor with create_processor_job_details_key_value_extraction:")
     create_processor_response = aiservicedocument_client.create_processor_job_and_wait_for_state(
         create_processor_job_details=create_processor_job_details_key_value_extraction,
         wait_for_states=[
