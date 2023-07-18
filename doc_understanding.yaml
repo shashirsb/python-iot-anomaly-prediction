@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: doc-understanding
-        image: docker.io/shashioracle/doc-understanding:0.0.13
+        image: docker.io/shashioracle/doc-understanding:0.0.14
         ports:
         - containerPort: 5000

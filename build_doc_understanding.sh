@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 # Set initial version number
-version=0.0.13
+version=0.0.14
 
 # Increment version number
 next_version=$(echo $version | awk -F. '{print $1"."$2"."$3+1}')
