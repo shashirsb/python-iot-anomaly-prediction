@@ -102,7 +102,7 @@ def extract_key_value(file_base64):
     print("processor call succeeded with status: {} and request_id: {}.".format(
         create_processor_response.status, create_processor_response.request_id))
     processor_job: oci.ai_document.models.ProcessorJob = create_processor_response.data
-    print("create_processor_job_details_key_value_extraction response: ")
+    print("create_processor_job_details_key_value_extraction response: ",create_processor_response.data )
 
     print("Getting defaultObject.json from the output_location")
     object_storage_client = oci.object_storage.ObjectStorageClient(
