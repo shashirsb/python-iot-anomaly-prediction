@@ -1,6 +1,6 @@
 [DEFAULT]
-user=ocid1.user.oc1..aaaaaaaasgisiyilo6bjj3gc55qhr7unm2jffijnrcynjza3g5nfygprf46a
-fingerprint=f9:e8:80:70:8d:ed:38:bb:40:46:59:87:4b:64:01:3c
+user=ocid1.user.oc1..aaaaaaaaoasx4mxwxlu7wjoeynxgocbfi2rtott55yvh3xdii75lonmstsza
+fingerprint=12:41:26:5d:db:bd:71:28:6f:26:4a:45:be:b5:29:d3
 key_file=key.pem
-tenancy=ocid1.tenancy.oc1..aaaaaaaakinl5qjs66ybwhqz52om4koxipnfze6tecv3tfvncdm3m4fxkpwa
-region=ap-mumbai-1
+tenancy=ocid1.tenancy.oc1..aaaaaaaalylrk6bjiuxqryukd6jrlxgfbwjuulnavxqehvv3crknt7ewhlpa
+region=us-ashburn-1
