@@ -192,6 +192,8 @@ def extract():
         print('----------------5')
 
         return _corsify_actual_response(jsonify(response))
+        # return _corsify_actual_response(jsonify(response))
+         
     else:
         raise RuntimeError("Weird - don't know how to handle method {}".format(request.method))
     
