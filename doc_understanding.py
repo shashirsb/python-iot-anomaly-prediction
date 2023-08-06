@@ -116,6 +116,8 @@ def extract_key_value(file_base64):
     import json
     import re
 
+    
+    print(get_object_response)
     # Assuming the JSON is stored in a variable called 'data'
     data = json.loads(get_object_response.data.content.decode())
 
@@ -164,7 +166,7 @@ def extract_key_value(file_base64):
 
     # return str(get_object_response.data.content.decode())
     # return str(json_output.decode())
-    return json_output
+    return json_output.decode()
 
 
 
