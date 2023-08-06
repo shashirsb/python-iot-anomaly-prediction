@@ -56,7 +56,7 @@ config = oci.config.from_file('config', "DEFAULT")
 
 
 # Compartment where processor job will be created (required)
-COMPARTMENT_ID = 'ocid1.compartment.oc1..aaaaaaaaflrsdacnlx6r7mertlzkpjqgrsbyjlln2rqmgrussoj4nd2lgqza'
+COMPARTMENT_ID = 'ocid1.compartment.oc1..aaaaaaaaflpdz3sf66757elwsk655uwd2uc3opbkxadqj76brxqzrvxtgwhq'
 
 
 def extract_key_value(file_base64):
@@ -77,8 +77,8 @@ def extract_key_value(file_base64):
 
     # Setup the output location where processor job results will be created
     output_location = oci.ai_document.models.OutputLocation()
-    output_location.namespace_name = "bm3n5p8nor1r"  # e.g. "axk2tfhlrens"
-    output_location.bucket_name = "ekyc-bucket"  # e.g "output"
+    output_location.namespace_name = "sehubjapaciaas"  # e.g. "axk2tfhlrens"
+    output_location.bucket_name = "appdevBucket"  # e.g "output"
     output_location.prefix = "demo"  # e.g "demo"
 
     # Create a processor_job for invoice key_value_extraction feature.
