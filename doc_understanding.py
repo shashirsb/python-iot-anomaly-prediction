@@ -156,6 +156,7 @@ def extract_key_value(file_base64):
     }
 
     # Converting the dictionary to a JSON string
+    print(extracted_info)
     json_output = json.dumps(extracted_info, indent=4)
 
     # Printing the JSON string
@@ -169,11 +170,14 @@ def extract_key_value(file_base64):
 # Add a route for the POST request with file upload
 @app.route('/extract', methods=['POST', 'OPTIONS', 'GET'])
 def extract():
+    print('----------------1')
     if request.method == "OPTIONS": # CORS preflight
         print('wihtin OPTIONS')
         return _build_cors_preflight_response()        
     elif request.method == "POST": # The actual request following the preflight
+        print('----------------2')
         print('wihtin POST')
+        print('----------------3')
         file = request.files['file']
         if file:
             file_content = file.read()
@@ -181,9 +185,9 @@ def extract():
         
         # Create the response object
         response = extract_key_value(file_base64)
-        print('----------------1')
+        print('----------------4')
         print(response)
-        print('----------------2')
+        print('----------------5')
 
         return _corsify_actual_response(jsonify(response))
     else:
